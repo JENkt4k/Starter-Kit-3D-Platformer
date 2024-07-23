@@ -32,7 +32,7 @@ shadow_offset = Vector2(2, 2)
 environment = ExtResource("1_ahusb")
 
 [node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_onms2")]
-view = NodePath("../View")
+view = NodePath("../GridContainer/SubViewportContainer/SubViewport/View")
 
 [node name="Player2" parent="." instance=ExtResource("3_h6wf4")]
 transform = Transform3D(1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 0, 1, 2.53042, 0.5, -1.19209e-07)
@@ -201,18 +201,7 @@ offset_bottom = 123.0
 text = "0"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="View" type="Node3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
-script = ExtResource("5_bg0fr")
-target = NodePath("../Player")
-
-[node name="Camera" type="Camera3D" parent="View"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-current = true
-fov = 40.0
-
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -230,8 +219,18 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(638, 720)
+render_target_update_mode = 4
+
+[node name="View" type="Node3D" parent="GridContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
+script = ExtResource("5_bg0fr")
+target = NodePath("../../../../Player")
+
+[node name="Camera" type="Camera3D" parent="GridContainer/SubViewportContainer/SubViewport/View"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+current = true
+fov = 40.0
 
 [node name="SubViewportContainer2" type="SubViewportContainer" parent="GridContainer"]
 layout_mode = 2
@@ -241,7 +240,17 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer2"]
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(638, 720)
+render_target_update_mode = 4
+
+[node name="View2" type="Node3D" parent="GridContainer/SubViewportContainer2/SubViewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
+script = ExtResource("5_bg0fr")
+target = NodePath("../../../../Player2")
+
+[node name="Camera" type="Camera3D" parent="GridContainer/SubViewportContainer2/SubViewport/View2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+current = true
+fov = 40.0
 
 [connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]
