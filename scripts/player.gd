@@ -94,7 +94,7 @@ func handle_effects(delta):
 		else:
 			animation.play("idle", 0)
 	else:
-		animation.play("jump_%s" % [player_id], 0)
+		animation.play("jump", 0)
 
 # Handle movement input
 

@@ -1,12 +1,12 @@
 extends Area3D
 
-var time := 0.0
-var grabbed := false
+#var time := 0.0
+#var grabbed := false
 
 # Collecting coins
-
-func _on_body_entered(body):
-	pass
+#
+#func _on_body_entered(body):
+	#pass
 	
 func _process(delta):
 	

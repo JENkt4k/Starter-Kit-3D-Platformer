@@ -254,3 +254,4 @@ current = true
 fov = 40.0
 
 [connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]
+[connection signal="coin_collected" from="Player2" to="HUD" method="_on_player_2_coin_collected"]
