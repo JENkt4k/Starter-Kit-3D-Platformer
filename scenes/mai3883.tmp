@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bqqgyqafm7xwp"]
+[gd_scene load_steps=16 format=3 uid="uid://bqqgyqafm7xwp"]
 
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_ahusb"]
 [ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_onms2"]
@@ -8,17 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://rjh4ifidqrfp" path="res://objects/platform_medium.tscn" id="7_ixpj3"]
 [ext_resource type="PackedScene" uid="uid://uqr4hswv6d2g" path="res://objects/platform_grass_large_round.tscn" id="8_4oh1e"]
 [ext_resource type="PackedScene" uid="uid://c8up71en5djgm" path="res://objects/platform_falling.tscn" id="9_2fnpo"]
-[ext_resource type="PackedScene" uid="uid://dbmkur7544e82" path="res://flag.tscn" id="9_7cwka"]
 [ext_resource type="PackedScene" uid="uid://dtjvjdjl8cs6e" path="res://models/flag.glb" id="9_fw1f5"]
 [ext_resource type="PackedScene" uid="uid://dfpisimsgf5ce" path="res://objects/coin.tscn" id="10_fwhys"]
-[ext_resource type="Script" path="res://scenes/flag.gd" id="10_hiag2"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="11_apvpm"]
 [ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="13_drtpy"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="13_jfda3"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="17_tk810"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_dc4vf"]
-size = Vector3(0.524902, 1.32788, 0.881348)
 
 [sub_resource type="LabelSettings" id="LabelSettings_38ys3"]
 font = ExtResource("17_tk810")
@@ -32,11 +27,14 @@ shadow_offset = Vector2(2, 2)
 environment = ExtResource("1_ahusb")
 
 [node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_onms2")]
-view = NodePath("../View")
+view = NodePath("../GridContainer/SubViewportContainer/SubViewport/View")
+movement_speed = 250
+jump_strength = 7
 
 [node name="Player2" parent="." instance=ExtResource("3_h6wf4")]
 transform = Transform3D(1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 0, 1, 2.53042, 0.5, -1.19209e-07)
-player_id = 2
+movement_speed = 250
+jump_strength = 7
 
 [node name="World" type="Node3D" parent="."]
 
@@ -81,18 +79,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, -2)
 
 [node name="flag" parent="World" instance=ExtResource("9_fw1f5")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 3.48077, -6)
-visible = false
-
-[node name="flag2" parent="World" instance=ExtResource("9_7cwka")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 3.481, -6)
-
-[node name="flagcolision" type="Area3D" parent="World/flag2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00315189, 0.00660658, -0.0138445)
-script = ExtResource("10_hiag2")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/flag2/flagcolision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0168457, 0.667603, 0.275146)
-shape = SubResource("BoxShape3D_dc4vf")
 
 [node name="coin" parent="World" instance=ExtResource("10_fwhys")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.635, 0)
@@ -201,18 +187,7 @@ offset_bottom = 123.0
 text = "0"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="View" type="Node3D" parent="." node_paths=PackedStringArray("target")]
-transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
-script = ExtResource("5_bg0fr")
-target = NodePath("../Player")
-
-[node name="Camera" type="Camera3D" parent="View"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-current = true
-fov = 40.0
-
 [node name="GridContainer" type="GridContainer" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -229,9 +204,17 @@ size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer"]
-handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(638, 720)
+
+[node name="View" type="Node3D" parent="GridContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
+transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
+script = ExtResource("5_bg0fr")
+target = NodePath("../../../../Player")
+
+[node name="Camera" type="Camera3D" parent="GridContainer/SubViewportContainer/SubViewport/View"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+current = true
+fov = 40.0
 
 [node name="SubViewportContainer2" type="SubViewportContainer" parent="GridContainer"]
 layout_mode = 2
@@ -241,7 +224,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/SubViewportContainer2"]
 handle_input_locally = false
-size = Vector2i(2, 2)
-render_target_update_mode = 0
+size = Vector2i(638, 720)
+render_target_update_mode = 4
 
 [connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]

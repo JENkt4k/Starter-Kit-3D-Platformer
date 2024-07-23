@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbmkur7544e82"]
+
+[ext_resource type="PackedScene" uid="uid://dtjvjdjl8cs6e" path="res://models/flag.glb" id="1_5eo10"]
+
+[node name="flag" instance=ExtResource("1_5eo10")]

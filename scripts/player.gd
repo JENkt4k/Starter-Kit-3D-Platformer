@@ -8,6 +8,7 @@ signal coin_collected
 @export_subgroup("Properties")
 @export var movement_speed = 250
 @export var jump_strength = 7
+@export var player_id = 1
 
 var movement_velocity: Vector3
 var rotation_direction: float
@@ -93,7 +94,7 @@ func handle_effects(delta):
 		else:
 			animation.play("idle", 0)
 	else:
-		animation.play("jump", 0)
+		animation.play("jump_%s" % [player_id], 0)
 
 # Handle movement input
 
@@ -103,10 +104,10 @@ func handle_controls(delta):
 	
 	var input := Vector3.ZERO
 	
-	input.x = Input.get_axis("move_left", "move_right")
-	input.z = Input.get_axis("move_forward", "move_back")
+	input.x = Input.get_axis("move_left_%s" % [player_id], "move_right_%s" % [player_id])
+	input.z = Input.get_axis("move_forward_%s" % [player_id], "move_back_%s" % [player_id])
 	
-	input = input.rotated(Vector3.UP, view.rotation.y)
+	#input = input.rotaed(Vector3.UP, view.rotation.y)
 	
 	if input.length() > 1:
 		input = input.normalized()
@@ -115,7 +116,7 @@ func handle_controls(delta):
 	
 	# Jumping
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump_%s" % [player_id]):
 		
 		if jump_single or jump_double:
 			jump()
