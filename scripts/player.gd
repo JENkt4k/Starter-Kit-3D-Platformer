@@ -176,4 +176,4 @@ func _reload_game():
 	
 func _end_game():
 	endgame = false
-	get_tree().change_scene_to_file("res://scenes/gameover.tscn")
+	get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")

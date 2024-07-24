@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_lwpqb"]
 [ext_resource type="PackedScene" uid="uid://c0e27836xgmhi" path="res://objects/character.tscn" id="2_ini3i"]
+[ext_resource type="Texture2D" uid="uid://dra4y2o0dv8fn" path="res://models/Textures/colormap_orangey.png" id="3_7jh6c"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://sprites/blob_shadow.png" id="3_5832n"]
-[ext_resource type="Texture2D" uid="uid://ff14okmggaku" path="res://models/Textures/colormap2.png" id="3_t7u2i"]
 [ext_resource type="ArrayMesh" uid="uid://deu06eho4c74" path="res://meshes/dust.res" id="4_m6aaw"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://sounds/walking.ogg" id="5_dn20n"]
 
@@ -12,22 +12,22 @@ radius = 0.3
 height = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3kixe"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sysxp"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mx5vo"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vfjbu"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_if6s6"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbjq0"]
-albedo_texture = ExtResource("3_t7u2i")
+albedo_texture = ExtResource("3_7jh6c")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7stj"]
 diffuse_mode = 2
