@@ -162,6 +162,7 @@ func collect_coin():
 
 
 func _on_flagcolision_body_entered(body):
+	#don't remove nodes in signal, use bool instead
 	endgame = true
 	#get_tree().change_scene_to_file("res://scenes/gameover.tscn")
 	#print("wtf")

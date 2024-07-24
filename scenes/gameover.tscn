@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://blv8cpy21iyi6"]
+[gd_scene load_steps=3 format=3 uid="uid://blv8cpy21iyi6"]
 
 [ext_resource type="Script" path="res://scenes/gameover.gd" id="1_8t7td"]
+[ext_resource type="PackedScene" uid="uid://dbc0sc4s17erd" path="res://scenes/gamebackground_3d.tscn" id="2_y78xy"]
 
 [node name="gameover" type="CanvasLayer"]
 script = ExtResource("1_8t7td")
+
+[node name="gameover3d" parent="." instance=ExtResource("2_y78xy")]
 
 [node name="start" type="Button" parent="."]
 anchors_preset = 8
@@ -18,6 +21,7 @@ offset_bottom = 39.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Replay"
+metadata/_edit_use_anchors_ = true
 
 [node name="quit" type="Button" parent="."]
 anchors_preset = 8
@@ -32,6 +36,7 @@ offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Quit"
+metadata/_edit_use_anchors_ = true
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
