@@ -25,6 +25,7 @@ var coins = 0
 @onready var sound_footsteps = $SoundFootsteps
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
+@onready var endgame = false
 
 # Functions
 
@@ -55,9 +56,12 @@ func _physics_process(delta):
 	rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 10)
 	
 	# Falling/respawning
-	
+	if endgame:
+		_end_game()
+		
 	if position.y < -10:
-		get_tree().reload_current_scene()
+		_reload_game()
+		#get_tree().reload_current_scene()
 	
 	# Animation for scale (jumping and landing)
 	
@@ -155,3 +159,20 @@ func collect_coin():
 	coins += 1
 	
 	coin_collected.emit(coins)
+
+
+func _on_flagcolision_body_entered(body):
+	endgame = true
+	#get_tree().change_scene_to_file("res://scenes/gameover.tscn")
+	#print("wtf")
+	#pass # Replace with function body.
+	
+func _reload_game():
+	endgame = false
+	#falling doesnt end game
+	#TODO: globals and lives, per player
+	get_tree().reload_current_scene()
+	
+func _end_game():
+	endgame = false
+	get_tree().change_scene_to_file("res://scenes/gameover.tscn")
