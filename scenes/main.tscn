@@ -150,57 +150,6 @@ transform = Transform3D(-0.422618, -0.694272, 0.582563, 0, 0.642788, 0.766044, -
 shadow_enabled = true
 shadow_opacity = 0.75
 
-[node name="HUD" type="CanvasLayer" parent="."]
-script = ExtResource("11_apvpm")
-
-[node name="Icon" type="TextureRect" parent="HUD"]
-offset_left = 57.0
-offset_top = 67.0
-offset_right = 313.0
-offset_bottom = 323.0
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("13_jfda3")
-
-[node name="x" type="Label" parent="HUD"]
-offset_left = 112.0
-offset_top = 64.0
-offset_right = 144.0
-offset_bottom = 123.0
-text = "×"
-label_settings = SubResource("LabelSettings_38ys3")
-
-[node name="Coins" type="Label" parent="HUD"]
-offset_left = 144.0
-offset_top = 64.0
-offset_right = 368.0
-offset_bottom = 123.0
-text = "0"
-label_settings = SubResource("LabelSettings_38ys3")
-
-[node name="Icon2" type="TextureRect" parent="HUD"]
-offset_left = 938.0
-offset_top = 67.0
-offset_right = 1194.0
-offset_bottom = 323.0
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("13_jfda3")
-
-[node name="x2" type="Label" parent="HUD"]
-offset_left = 993.0
-offset_top = 64.0
-offset_right = 1025.0
-offset_bottom = 123.0
-text = "×"
-label_settings = SubResource("LabelSettings_38ys3")
-
-[node name="Coins2" type="Label" parent="HUD"]
-offset_left = 1025.0
-offset_top = 64.0
-offset_right = 1249.0
-offset_bottom = 123.0
-text = "0"
-label_settings = SubResource("LabelSettings_38ys3")
-
 [node name="GridContainer" type="GridContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,6 +170,33 @@ stretch = true
 handle_input_locally = false
 size = Vector2i(638, 720)
 render_target_update_mode = 4
+
+[node name="HUD" type="CanvasLayer" parent="GridContainer/SubViewportContainer/SubViewport"]
+script = ExtResource("11_apvpm")
+
+[node name="Icon" type="TextureRect" parent="GridContainer/SubViewportContainer/SubViewport/HUD"]
+offset_left = 57.0
+offset_top = 67.0
+offset_right = 313.0
+offset_bottom = 323.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("13_jfda3")
+
+[node name="x" type="Label" parent="GridContainer/SubViewportContainer/SubViewport/HUD"]
+offset_left = 112.0
+offset_top = 64.0
+offset_right = 144.0
+offset_bottom = 123.0
+text = "×"
+label_settings = SubResource("LabelSettings_38ys3")
+
+[node name="Coins" type="Label" parent="GridContainer/SubViewportContainer/SubViewport/HUD"]
+offset_left = 144.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 123.0
+text = "0"
+label_settings = SubResource("LabelSettings_38ys3")
 
 [node name="View" type="Node3D" parent="GridContainer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
@@ -243,6 +219,33 @@ handle_input_locally = false
 size = Vector2i(638, 720)
 render_target_update_mode = 4
 
+[node name="HUD2" type="CanvasLayer" parent="GridContainer/SubViewportContainer2/SubViewport"]
+script = ExtResource("11_apvpm")
+
+[node name="Icon" type="TextureRect" parent="GridContainer/SubViewportContainer2/SubViewport/HUD2"]
+offset_left = 57.0
+offset_top = 67.0
+offset_right = 313.0
+offset_bottom = 323.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("13_jfda3")
+
+[node name="x" type="Label" parent="GridContainer/SubViewportContainer2/SubViewport/HUD2"]
+offset_left = 112.0
+offset_top = 64.0
+offset_right = 144.0
+offset_bottom = 123.0
+text = "×"
+label_settings = SubResource("LabelSettings_38ys3")
+
+[node name="Coins2" type="Label" parent="GridContainer/SubViewportContainer2/SubViewport/HUD2"]
+offset_left = 144.0
+offset_top = 64.0
+offset_right = 368.0
+offset_bottom = 123.0
+text = "0"
+label_settings = SubResource("LabelSettings_38ys3")
+
 [node name="View2" type="Node3D" parent="GridContainer/SubViewportContainer2/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
 script = ExtResource("5_bg0fr")
@@ -253,5 +256,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 current = true
 fov = 40.0
 
-[connection signal="coin_collected" from="Player" to="HUD" method="_on_coin_collected"]
-[connection signal="coin_collected" from="Player2" to="HUD" method="_on_player_2_coin_collected"]
+[connection signal="coin_collected" from="Player" to="GridContainer/SubViewportContainer/SubViewport/HUD" method="_on_coin_collected"]
+[connection signal="coin_collected" from="Player2" to="GridContainer/SubViewportContainer2/SubViewport/HUD2" method="_on_player_2_coin_collected"]

@@ -8,7 +8,7 @@ extends Area3D
 #func _on_body_entered(body):
 	#pass
 	
-func _process(delta):
+func _process(_delta):
 	
 	#rotate_y(2 * delta) # Rotation
 	#position.y += (cos(time * 5) * 1) * delta # Sine movement
