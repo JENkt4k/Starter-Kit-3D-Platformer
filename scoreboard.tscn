@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://dm50h2jgg80ae"]
+
+[ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="1_fvb6r"]
+[ext_resource type="Script" path="res://scoreboard.gd" id="1_vh2y8"]
+[ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="2_den3c"]
+[ext_resource type="PackedScene" uid="uid://34gjpyrubq07" path="res://scenes/gameovergui.tscn" id="5_2bm1f"]
+[ext_resource type="Script" path="res://Scores.gd" id="5_v8nu8"]
+
+[node name="scoreboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vh2y8")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 100.0
+offset_top = 20.0
+offset_right = 1180.0
+offset_bottom = 700.0
+color = Color(0, 0.640811, 0.752355, 1)
+
+[node name="Border" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 30
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Border"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Scores" type="ItemList" parent="Border/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("1_fvb6r")
+item_count = 3
+max_columns = 3
+same_column_width = true
+item_0/text = "Initials"
+item_1/text = "Time"
+item_2/text = "Coins"
+item_2/icon = ExtResource("2_den3c")
+script = ExtResource("5_v8nu8")
+
+[node name="gameovergui" parent="." instance=ExtResource("5_2bm1f")]
+layout_mode = 2
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 120.0
+offset_top = 30.0
+offset_right = 1160.0
+offset_bottom = 690.0

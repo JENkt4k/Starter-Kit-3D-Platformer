@@ -8,6 +8,7 @@ signal coin_collected
 @export_subgroup("Properties")
 @export var movement_speed = 250
 @export var jump_strength = 7
+@export var player_initials = "AAA"
 @export var player_id = 1
 
 var movement_velocity: Vector3
@@ -20,6 +21,8 @@ var jump_single = true
 var jump_double = true
 
 var coins = 0
+
+var high_scores: SaveData = Global.scores
 
 @onready var particles_trail = $ParticlesTrail
 @onready var sound_footsteps = $SoundFootsteps
@@ -168,6 +171,12 @@ func _on_flagcolision_body_entered(body):
 	#print("wtf")
 	#pass # Replace with function body.
 	
+func _add_highscore():
+	if high_scores:
+		var key = "%s_%d,%d,%d" % [player_initials,player_id,coins,coins]
+		high_scores.scores[key] = coins
+		high_scores.save()
+	
 func _reload_game():
 	endgame = false
 	#falling doesnt end game
@@ -175,5 +184,7 @@ func _reload_game():
 	get_tree().reload_current_scene()
 	
 func _end_game():
+	_add_highscore()
 	endgame = false
-	get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")
+	get_tree().change_scene_to_file("res://scoreboard.tscn")
+	#get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")
