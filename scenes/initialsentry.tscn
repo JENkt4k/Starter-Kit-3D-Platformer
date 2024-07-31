@@ -1,0 +1,129 @@
+[gd_scene load_steps=6 format=3 uid="uid://drfm7u2n3wjp2"]
+
+[ext_resource type="Script" path="res://scenes/initialsentry.gd" id="1_mwjdo"]
+[ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="2_ii1to"]
+[ext_resource type="PackedScene" uid="uid://cvbjs5pdgw42m" path="res://scenes/confetti.tscn" id="2_o72xg"]
+[ext_resource type="Script" path="res://scenes/PlayerStatLabel.gd" id="2_u2ekv"]
+[ext_resource type="Texture2D" uid="uid://csn5q1hkfae20" path="res://icon.png" id="3_8oxt1"]
+
+[node name="initialsentry" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mwjdo")
+
+[node name="HeaderImage" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HeaderImage"]
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 1
+
+[node name="Confetti" parent="HeaderImage/HBoxContainer" instance=ExtResource("2_o72xg")]
+position = Vector2(221, 87)
+
+[node name="Coin" type="TextureRect" parent="HeaderImage/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("2_ii1to")
+
+[node name="KennyGame" type="TextureRect" parent="HeaderImage/HBoxContainer"]
+custom_minimum_size = Vector2(132, 132)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("3_8oxt1")
+expand_mode = 1
+
+[node name="Coin3" type="TextureRect" parent="HeaderImage/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("2_ii1to")
+
+[node name="Confetti2" parent="HeaderImage/HBoxContainer" instance=ExtResource("2_o72xg")]
+position = Vector2(964, 84)
+
+[node name="ScoreMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 200
+
+[node name="Background" type="ColorRect" parent="ScoreMargin"]
+layout_mode = 2
+color = Color(1, 0.603922, 0, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="ScoreMargin"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScoreMargin/MarginContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ScoreMargin/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HighScore" type="Label" parent="ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "New High Score
+"
+
+[node name="HighScore2" type="Label" parent="ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "New High Score
+"
+
+[node name="HighScore3" type="Label" parent="ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "New High Score
+"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ScoreMargin/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="PlayerStatLabel" type="Label" parent="ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Congradulations!!!
+"
+script = ExtResource("2_u2ekv")
+
+[node name="EntryLine" type="HBoxContainer" parent="ScoreMargin/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="initials_input" type="TextEdit" parent="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter your Initials Here"
+
+[node name="Save" type="Button" parent="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine"]
+layout_mode = 2
+text = "Save"
+
+[connection signal="pressed" from="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/Save" to="." method="_on_save_pressed"]

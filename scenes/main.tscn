@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bqqgyqafm7xwp"]
+[gd_scene load_steps=19 format=3 uid="uid://bqqgyqafm7xwp"]
 
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_ahusb"]
 [ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_onms2"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://scripts/hud.gd" id="11_apvpm"]
 [ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="13_drtpy"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="13_jfda3"]
+[ext_resource type="PackedScene" uid="uid://drfm7u2n3wjp2" path="res://scenes/initialsentry.tscn" id="16_xrl3q"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="17_tk810"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dc4vf"]
@@ -253,6 +254,9 @@ target = NodePath("../../../../Player2")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 current = true
 fov = 40.0
+
+[node name="initialsentry" parent="." instance=ExtResource("16_xrl3q")]
+visible = false
 
 [connection signal="coin_collected" from="Player" to="GridContainer/SubViewportContainer/SubViewport/HUD" method="_on_coin_collected"]
 [connection signal="coin_collected" from="Player2" to="GridContainer/SubViewportContainer2/SubViewport/HUD2" method="_on_player_2_coin_collected"]

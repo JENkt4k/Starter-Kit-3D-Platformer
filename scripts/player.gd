@@ -22,13 +22,14 @@ var jump_double = true
 
 var coins = 0
 
-var high_scores: SaveData = Global.scores
+#var high_scores: SaveData = Global.scores
 
 @onready var particles_trail = $ParticlesTrail
 @onready var sound_footsteps = $SoundFootsteps
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
 @onready var endgame = false
+@onready var initials_entry = $"../initialsentry"
 
 # Functions
 
@@ -171,11 +172,11 @@ func _on_flagcolision_body_entered(body):
 	#print("wtf")
 	#pass # Replace with function body.
 	
-func _add_highscore():
-	if high_scores:
-		var key = "%s_%d,%d,%d" % [player_initials,player_id,coins,coins]
-		high_scores.scores[key] = coins
-		high_scores.save()
+#func _add_highscore():
+	#if high_scores:
+		#var key = "%s_%d,%d,%d" % [player_initials,player_id,coins,coins]
+		#high_scores.scores[key] = coins
+		#high_scores.save()
 	
 func _reload_game():
 	endgame = false
@@ -183,8 +184,23 @@ func _reload_game():
 	#TODO: globals and lives, per player
 	get_tree().reload_current_scene()
 	
+#called once for each player
 func _end_game():
-	_add_highscore()
+	#_add_highscore()
 	endgame = false
-	get_tree().change_scene_to_file("res://scoreboard.tscn")
+	#TODO: get/save initials before scoreboard display
+	show_scene()
+	#get_tree().change_scene_to_file("res://scoreboard.tscn")
 	#get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")
+	
+func show_scene():
+	if player_id == 1:
+		var ie = get_node("../initialsentry")
+		ie.player_id = player_id
+		ie.player_coins = coins
+		ie.refresh()
+		initials_entry.visible = true  # Show the scene
+	#scene.visible = false # Hide the scene
+	# Show the scene by adding it to the scene tree
+	#get_tree().root.add_child(scene_instance)
+	#scene_instance.visible = true
