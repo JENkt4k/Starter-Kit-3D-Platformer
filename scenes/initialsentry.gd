@@ -1,4 +1,7 @@
 extends Control
+
+signal save_complete
+
 @export var player_initials: String = "PLA"
 @export var player_id: int = 0
 @export var player_coins: int = 0
@@ -29,11 +32,11 @@ func _process(delta):
 
 func _on_save_pressed():
 	player_initials = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text
-	#multi-player mode issue, lets get to 2 players
-	#TODO: add second player
 	if high_scores:
 		var key = "%s_%d,%d,%d" % [player_initials,player_id,player_coins,player_coins]
 		high_scores.scores[key] = player_coins
 		high_scores.save()
-	get_tree().change_scene_to_file("res://scoreboard.tscn")
+		emit_signal("save_complete")
+	
 	pass # Replace with function body.
+

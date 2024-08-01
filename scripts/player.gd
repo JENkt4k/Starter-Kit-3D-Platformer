@@ -22,6 +22,14 @@ var jump_double = true
 
 var coins = 0
 
+var p1saved = false
+var p2saved = false
+var initialsNode
+var InitialsNode2
+var score_screen = false
+var initials_entry 
+var initials_entry2 
+
 #var high_scores: SaveData = Global.scores
 
 @onready var particles_trail = $ParticlesTrail
@@ -29,24 +37,45 @@ var coins = 0
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
 @onready var endgame = false
-@onready var initials_entry = $"../initialsentry"
+#@onready var initials_entry = $"../GridContainer/SubViewportContainer/SubViewport/initialsentry" #$"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2" $"../GridContainer/SubViewportContainer/SubViewport/initialsentry"
+#@onready var initials_entry2 = $"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2"#$"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2"
+#$"../initialsentry2"
 
 # Functions
+#func _ready():
+	#initials_entry.connect("save_complete", _on_save1_complete )
+	#initials_entry2.connect("save_complete", _on_save2_complete )
+	#ie2.player_id = player_id
+	#ie2.player_coins = coins
+func _ready():
+	# this check is due to start screen using a copy of the main scene/player scenes (current script) 
+	var current =  get_path().get_concatenated_names()
+	if current.find("startgui") == -1:
+		call_deferred("_initialize") # we are not in the start sceen
 
-func _physics_process(delta):
-	
+func _initialize():
+	initials_entry = get_node("../GridContainer/SubViewportContainer/SubViewport/initialsentry")
+	initials_entry2 = get_node("../GridContainer/SubViewportContainer2/SubViewport/initialsentry2")
+
+	if initials_entry == null:
+		print("Node not found: ./GridContainer/SubViewportContainer/SubViewport/initialsentry")
+
+	if initials_entry2 == null:
+		print("Node not found: ./GridContainer/SubViewportContainer2/SubViewport/initialsentry2")
+		return
+
+func _physics_process(_delta):
 	# Handle functions
+	handle_controls(_delta)
+	handle_gravity(_delta)
 	
-	handle_controls(delta)
-	handle_gravity(delta)
-	
-	handle_effects(delta)
+	handle_effects(_delta)
 	
 	# Movement
 
 	var applied_velocity: Vector3
 	
-	applied_velocity = velocity.lerp(movement_velocity, delta * 10)
+	applied_velocity = velocity.lerp(movement_velocity, _delta * 10)
 	applied_velocity.y = -gravity
 	
 	velocity = applied_velocity
@@ -57,11 +86,14 @@ func _physics_process(delta):
 	if Vector2(velocity.z, velocity.x).length() > 0:
 		rotation_direction = Vector2(velocity.z, velocity.x).angle()
 		
-	rotation.y = lerp_angle(rotation.y, rotation_direction, delta * 10)
+	rotation.y = lerp_angle(rotation.y, rotation_direction, _delta * 10)
 	
 	# Falling/respawning
 	if endgame:
 		_end_game()
+		
+	if score_screen:
+		_show_scoreboard()
 		
 	if position.y < -10:
 		_reload_game()
@@ -69,7 +101,7 @@ func _physics_process(delta):
 	
 	# Animation for scale (jumping and landing)
 	
-	model.scale = model.scale.lerp(Vector3(1, 1, 1), delta * 10)
+	model.scale = model.scale.lerp(Vector3(1, 1, 1), _delta * 10)
 	
 	# Animation when landing
 	
@@ -194,13 +226,45 @@ func _end_game():
 	#get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")
 	
 func show_scene():
+	#multi-player mode issue, lets get to 2 players
+	#TODO: add second player
+	if initials_entry == null:
+		return
+		
+	initials_entry.connect("save_complete", _on_save1_complete )
+	initials_entry2.connect("save_complete", _on_save2_complete )
 	if player_id == 1:
-		var ie = get_node("../initialsentry")
-		ie.player_id = player_id
-		ie.player_coins = coins
-		ie.refresh()
-		initials_entry.visible = true  # Show the scene
-	#scene.visible = false # Hide the scene
-	# Show the scene by adding it to the scene tree
-	#get_tree().root.add_child(scene_instance)
-	#scene_instance.visible = true
+		initials_entry.player_id = player_id
+		initials_entry.player_coins = coins
+		initials_entry.refresh()
+	
+	if player_id == 2:
+		initials_entry2.player_id = player_id
+		initials_entry2.player_coins = coins
+		initials_entry2.refresh()
+	
+	initials_entry.visible = true  # Show the scene
+	initials_entry2.visible = true
+	
+func _on_save1_complete():
+	if p2saved:
+		p2saved = false
+		p1saved = p2saved
+		score_screen = true
+		#get_tree().change_scene_to_file("res://scoreboard.tscn")
+	else:
+		p1saved = true
+
+
+func _on_save2_complete():
+	if p1saved:
+		p1saved = false
+		p2saved = p1saved
+		score_screen = true
+		#get_tree().change_scene_to_file("res://scoreboard.tscn")
+	else:
+		p2saved = true
+		
+func _show_scoreboard():
+	get_tree().change_scene_to_file("res://scoreboard.tscn")
+	

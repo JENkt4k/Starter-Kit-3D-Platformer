@@ -18,15 +18,42 @@ func _ready():
 	self.fixed_column_width = width/(self.max_columns)
 
 	if high_scores:
+		display_high_scores()
 
-		for score in high_scores.scores:
-			var key: String = score
-			var values = key.split(",")
-			if values.size() > 2:
-				self.add_item(values[0])
-				self.add_item(values[1])
-				self.add_item(values[2])
+		#for score in high_scores.scores:
+			#var key: String = score
+			#var values = key.split(",")
+			#if values.size() > 2:
+				#self.add_item(values[0])
+				#self.add_item(values[1])
+				#self.add_item(values[2])
 
+func sort_high_scores():
+	var sorted_scores = high_scores.scores.keys()
+	sorted_scores.sort_custom(dictionary_value_comparator) 
+	 #.sort_custom(dictionary_value_comparator) #.keys().sort_custom(high_scores, "dictionary_value_comparator")
+	return sorted_scores
+
+# Comparator function to use with sort_custom
+func dictionary_value_comparator(a, b) -> bool:
+	return high_scores.scores[a] > high_scores.scores[b]
+
+func display_high_scores():
+	var sorted_players = sort_high_scores()
+	#var list_container = $ListContainer  # Assume you have a VBoxContainer or similar node to hold the list items
+#
+	#list_container.clear()  # Clear any existing items
+	for player in sorted_players:
+		var key: String = player
+		var values = key.split(",")
+		if values.size() > 2:
+			self.add_item(values[0])
+			self.add_item(values[1])
+			self.add_item(values[2])
+		#var score = high_scores[player]
+		#var list_item = Label.new()
+		#list_item.text = "%s: %d" % [player, score]
+		#list_container.add_child(list_item)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
