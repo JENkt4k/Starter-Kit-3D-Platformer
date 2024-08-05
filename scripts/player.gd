@@ -37,8 +37,8 @@ var initials_entry2
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
 @onready var endgame = false
-#@onready var initials_entry = $"../GridContainer/SubViewportContainer/SubViewport/initialsentry" #$"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2" $"../GridContainer/SubViewportContainer/SubViewport/initialsentry"
-#@onready var initials_entry2 = $"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2"#$"../GridContainer/SubViewportContainer2/SubViewport/initialsentry2"
+#@onready var initials_entry = $"../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry" #$"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2" $"../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry"
+#@onready var initials_entry2 = $"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2"#$"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2"
 #$"../initialsentry2"
 
 # Functions
@@ -54,14 +54,14 @@ func _ready():
 		call_deferred("_initialize") # we are not in the start sceen
 
 func _initialize():
-	initials_entry = get_node("../GridContainer/SubViewportContainer/SubViewport/initialsentry")
-	initials_entry2 = get_node("../GridContainer/SubViewportContainer2/SubViewport/initialsentry2")
+	initials_entry = get_node("../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
+	initials_entry2 = get_node("../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
 
 	if initials_entry == null:
-		print("Node not found: ./GridContainer/SubViewportContainer/SubViewport/initialsentry")
+		print("Node not found: ./GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
 
 	if initials_entry2 == null:
-		print("Node not found: ./GridContainer/SubViewportContainer2/SubViewport/initialsentry2")
+		print("Node not found: ./GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
 		return
 
 func _physics_process(_delta):
