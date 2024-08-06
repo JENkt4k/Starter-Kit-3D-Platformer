@@ -252,7 +252,7 @@ func show_scene():
 	if initials_entry == null:
 		return
 		
-	initials_entry.connect("save_complete", _on_save1_complete )
+	initials_entry.connect("save_complete", _on_save_complete )
 
 	initials_entry.player_id = player_id
 	initials_entry.player_coins = coins
@@ -285,17 +285,23 @@ func show_scene():
 	#initials_entry3.visible = true
 	#initials_entry4.visible = true
 	
-func _on_save1_complete():
-	if  Global.player_count == 1:
-		score_screen = true
-		return
-	if p2saved:
-		p2saved = false
-		p1saved = p2saved
-		score_screen = true
-		#get_tree().change_scene_to_file("res://scoreboard.tscn")
-	else:
-		p1saved = true
+func _on_save_complete():
+	#maybe use a timer instead of saving each user?
+	Global.player_count
+	score_screen = true
+
+
+#func _on_save1_complete():
+	#if  Global.player_count == 1:
+		#score_screen = true
+		#return
+	#if p2saved:
+		#p2saved = false
+		#p1saved = p2saved
+		#score_screen = true
+		##get_tree().change_scene_to_file("res://scoreboard.tscn")
+	#else:
+		#p1saved = true
 
 
 #func _on_save2_complete():
