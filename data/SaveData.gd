@@ -6,7 +6,8 @@ static var data_path = "user://testdata.tres"
 func save()->void:
 	ResourceSaver.save(self, data_path)
 	
-static func load_or_create(data_path) -> SaveData:
+static func load_or_create(_data_path) -> SaveData:
+	data_path = _data_path
 	var res: SaveData = load(data_path) as SaveData
 	if !res:
 		res = SaveData.new()

@@ -197,7 +197,7 @@ func collect_coin():
 	coin_collected.emit(coins)
 
 
-func _on_flagcolision_body_entered(body):
+func _on_flagcolision_body_entered(_body):
 	#don't remove nodes in signal, use bool instead
 	endgame = true
 	#get_tree().change_scene_to_file("res://scenes/gameover.tscn")
@@ -247,6 +247,9 @@ func show_scene():
 	initials_entry2.visible = true
 	
 func _on_save1_complete():
+	if  Global.player_count == 1:
+		score_screen = true
+		return
 	if p2saved:
 		p2saved = false
 		p1saved = p2saved

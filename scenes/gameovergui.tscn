@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dbc0sc4s17erd" path="res://scenes/gamebackground_3d.tscn" id="1_q3kh7"]
 [ext_resource type="Script" path="res://scenes/gameovergui.gd" id="1_tr5rr"]
-[ext_resource type="Script" path="res://scenes/Start.gd" id="2_wdesv"]
+[ext_resource type="Script" path="res://scenes/StartGameButton.gd" id="2_wdesv"]
 
 [node name="gameovergui" type="Control"]
 layout_mode = 3

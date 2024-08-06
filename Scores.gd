@@ -7,7 +7,7 @@ var high_scores: SaveData = Global.scores
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var root: Window = get_tree().root
+	#var root: Window = get_tree().root
 
 	var parent: MarginContainer = get_parent().get_parent()
 

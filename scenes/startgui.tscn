@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cp0uctjbj0h87"]
 
-[ext_resource type="Script" path="res://scenes/Start.gd" id="1_6mhf8"]
+[ext_resource type="Script" path="res://scenes/StartGameButton.gd" id="1_6mhf8"]
 [ext_resource type="Script" path="res://scenes/startgui.gd" id="1_edasy"]
 [ext_resource type="PackedScene" uid="uid://dbc0sc4s17erd" path="res://scenes/gamebackground_3d.tscn" id="1_xuere"]
 
@@ -42,7 +42,7 @@ value = 1.0
 layout_mode = 2
 text = "Players"
 
-[node name="Start" type="Button" parent="VBoxContainer"]
+[node name="StartGame" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start
 Button X"
@@ -55,5 +55,5 @@ Button X"
 
 [connection signal="changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_value_changed"]
-[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

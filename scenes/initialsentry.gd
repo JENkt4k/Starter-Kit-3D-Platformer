@@ -11,7 +11,7 @@ var high_scores: SaveData = Global.scores
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var values = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]
+	#var _values = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]
 	#self = values
 	pass # Replace with function body.
 	
@@ -26,7 +26,7 @@ func refresh():
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 

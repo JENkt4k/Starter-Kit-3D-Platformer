@@ -1,10 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://bqqgyqafm7xwp"]
+[gd_scene load_steps=22 format=3 uid="uid://bqqgyqafm7xwp"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_4dej5"]
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_ahusb"]
 [ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_onms2"]
 [ext_resource type="PackedScene" uid="uid://dbb5xpyaqtabg" path="res://objects/player2.tscn" id="3_h6wf4"]
 [ext_resource type="Script" path="res://scripts/view.gd" id="5_bg0fr"]
+[ext_resource type="PackedScene" uid="uid://cvi3hcfcx2i4y" path="res://objects/player3.tscn" id="5_iouns"]
+[ext_resource type="PackedScene" uid="uid://cxdv7j65grgtw" path="res://objects/player4.tscn" id="6_kmckp"]
 [ext_resource type="PackedScene" uid="uid://cnymdajj1vsqm" path="res://objects/platform.tscn" id="6_sdmev"]
 [ext_resource type="PackedScene" uid="uid://rjh4ifidqrfp" path="res://objects/platform_medium.tscn" id="7_ixpj3"]
 [ext_resource type="PackedScene" uid="uid://uqr4hswv6d2g" path="res://objects/platform_grass_large_round.tscn" id="8_4oh1e"]
@@ -35,10 +37,31 @@ environment = ExtResource("1_ahusb")
 
 [node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_onms2")]
 view = NodePath("../GridContainer/PlayerViewportContainer1/SubViewport/View")
+movement_speed = 250
+jump_strength = 7
+player_initials = "AAA"
+player_id = 1
 
 [node name="Player2" parent="." instance=ExtResource("3_h6wf4")]
 transform = Transform3D(1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 0, 1, 2.53042, 0.5, -1.19209e-07)
+movement_speed = 250
+jump_strength = 7
+player_initials = "AAA"
 player_id = 2
+
+[node name="Player3" parent="." instance=ExtResource("5_iouns")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45973, 0.5, -2.9203)
+movement_speed = 250
+jump_strength = 7
+player_initials = "AAA"
+player_id = 3
+
+[node name="Player4" parent="." instance=ExtResource("6_kmckp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.529137, 0.525764, -2.88738)
+movement_speed = 250
+jump_strength = 7
+player_initials = "AAA"
+player_id = 4
 
 [node name="World" type="Node3D" parent="."]
 
@@ -311,12 +334,12 @@ offset_bottom = 123.0
 text = "0"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="View2" type="Node3D" parent="GridContainer/PlayerViewportContainer3/SubViewport" node_paths=PackedStringArray("target")]
+[node name="View3" type="Node3D" parent="GridContainer/PlayerViewportContainer3/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
 script = ExtResource("5_bg0fr")
-target = NodePath("../../../../Player2")
+target = NodePath("../../../../Player3")
 
-[node name="Camera" type="Camera3D" parent="GridContainer/PlayerViewportContainer3/SubViewport/View2"]
+[node name="Camera" type="Camera3D" parent="GridContainer/PlayerViewportContainer3/SubViewport/View3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 current = true
 fov = 40.0
@@ -363,12 +386,12 @@ offset_bottom = 123.0
 text = "0"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="View2" type="Node3D" parent="GridContainer/PlayerViewportContainer4/SubViewport" node_paths=PackedStringArray("target")]
+[node name="View4" type="Node3D" parent="GridContainer/PlayerViewportContainer4/SubViewport" node_paths=PackedStringArray("target")]
 transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0.707107, -0.298836, 0.640856, 0, 0, 0)
 script = ExtResource("5_bg0fr")
-target = NodePath("../../../../Player2")
+target = NodePath("../../../../Player4")
 
-[node name="Camera" type="Camera3D" parent="GridContainer/PlayerViewportContainer4/SubViewport/View2"]
+[node name="Camera" type="Camera3D" parent="GridContainer/PlayerViewportContainer4/SubViewport/View4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 current = true
 fov = 40.0
@@ -380,6 +403,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/MiniViewportContainer"]
 handle_input_locally = false
+size = Vector2i(2, 2)
 render_target_update_mode = 0
 
 [node name="Node3D" type="Node3D" parent="GridContainer/MiniViewportContainer/SubViewport"]
