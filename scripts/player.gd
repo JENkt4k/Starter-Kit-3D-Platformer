@@ -29,6 +29,8 @@ var InitialsNode2
 var score_screen = false
 var initials_entry 
 var initials_entry2 
+var initials_entry3
+var initials_entry4
 
 #var high_scores: SaveData = Global.scores
 
@@ -52,16 +54,35 @@ func _ready():
 	var current =  get_path().get_concatenated_names()
 	if current.find("startgui") == -1:
 		call_deferred("_initialize") # we are not in the start sceen
+		
+func is_set(object)->bool:
+	if object == null:
+		return false
+	else:
+		return true
+	
 
 func _initialize():
-	initials_entry = get_node("../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
-	initials_entry2 = get_node("../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
+	if !is_set(initials_entry):
+		initials_entry = get_node("../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
+	if !is_set(initials_entry2):
+		initials_entry2 = get_node("../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
+	if !is_set(initials_entry3):
+		initials_entry3 = get_node("../GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3")
+	if !is_set(initials_entry4):
+		initials_entry4 = get_node("../GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4")
 
-	if initials_entry == null:
+	if !is_set(initials_entry):
 		print("Node not found: ./GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
 
-	if initials_entry2 == null:
+	if !is_set(initials_entry2): #initials_entry2 == null:
 		print("Node not found: ./GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
+		
+	if !is_set(initials_entry):
+		print("Node not found: ./GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3")
+
+	if !is_set(initials_entry2): #initials_entry2 == null:
+		print("Node not found: ./GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4")
 		return
 
 func _physics_process(_delta):
@@ -233,6 +254,8 @@ func show_scene():
 		
 	initials_entry.connect("save_complete", _on_save1_complete )
 	initials_entry2.connect("save_complete", _on_save2_complete )
+	initials_entry3.connect("save_complete", _on_save3_complete )
+	initials_entry4.connect("save_complete", _on_save4_complete )
 	if player_id == 1:
 		initials_entry.player_id = player_id
 		initials_entry.player_coins = coins
@@ -245,6 +268,8 @@ func show_scene():
 	
 	initials_entry.visible = true  # Show the scene
 	initials_entry2.visible = true
+	initials_entry3.visible = true
+	initials_entry4.visible = true
 	
 func _on_save1_complete():
 	if  Global.player_count == 1:
@@ -260,6 +285,26 @@ func _on_save1_complete():
 
 
 func _on_save2_complete():
+	if p1saved:
+		p1saved = false
+		p2saved = p1saved
+		score_screen = true
+		#get_tree().change_scene_to_file("res://scoreboard.tscn")
+	else:
+		p2saved = true
+		
+
+func _on_save3_complete():
+	if p1saved:
+		p1saved = false
+		p2saved = p1saved
+		score_screen = true
+		#get_tree().change_scene_to_file("res://scoreboard.tscn")
+	else:
+		p2saved = true
+		
+		
+func _on_save4_complete():
 	if p1saved:
 		p1saved = false
 		p2saved = p1saved

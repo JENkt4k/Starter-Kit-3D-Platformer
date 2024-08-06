@@ -37,30 +37,17 @@ environment = ExtResource("1_ahusb")
 
 [node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_onms2")]
 view = NodePath("../GridContainer/PlayerViewportContainer1/SubViewport/View")
-movement_speed = 250
-jump_strength = 7
-player_initials = "AAA"
-player_id = 1
 
 [node name="Player2" parent="." instance=ExtResource("3_h6wf4")]
 transform = Transform3D(1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 0, 1, 2.53042, 0.5, -1.19209e-07)
-movement_speed = 250
-jump_strength = 7
-player_initials = "AAA"
 player_id = 2
 
 [node name="Player3" parent="." instance=ExtResource("5_iouns")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45973, 0.5, -2.9203)
-movement_speed = 250
-jump_strength = 7
-player_initials = "AAA"
 player_id = 3
 
 [node name="Player4" parent="." instance=ExtResource("6_kmckp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.529137, 0.525764, -2.88738)
-movement_speed = 250
-jump_strength = 7
-player_initials = "AAA"
 player_id = 4
 
 [node name="World" type="Node3D" parent="."]
@@ -304,13 +291,13 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry3" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
-[node name="HUD2" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer3/SubViewport"]
+[node name="HUD3" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer3/SubViewport"]
 script = ExtResource("11_apvpm")
 
-[node name="Icon" type="TextureRect" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD2"]
+[node name="Icon" type="TextureRect" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD3"]
 offset_left = 57.0
 offset_top = 67.0
 offset_right = 313.0
@@ -318,7 +305,7 @@ offset_bottom = 323.0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("13_jfda3")
 
-[node name="x" type="Label" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD2"]
+[node name="x" type="Label" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD3"]
 offset_left = 112.0
 offset_top = 64.0
 offset_right = 144.0
@@ -326,7 +313,7 @@ offset_bottom = 123.0
 text = "×"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="Coins2" type="Label" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD2"]
+[node name="Coins2" type="Label" parent="GridContainer/PlayerViewportContainer3/SubViewport/HUD3"]
 offset_left = 144.0
 offset_top = 64.0
 offset_right = 368.0
@@ -356,13 +343,13 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry4" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
-[node name="HUD2" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer4/SubViewport"]
+[node name="HUD4" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer4/SubViewport"]
 script = ExtResource("11_apvpm")
 
-[node name="Icon" type="TextureRect" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD2"]
+[node name="Icon" type="TextureRect" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD4"]
 offset_left = 57.0
 offset_top = 67.0
 offset_right = 313.0
@@ -370,7 +357,7 @@ offset_bottom = 323.0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("13_jfda3")
 
-[node name="x" type="Label" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD2"]
+[node name="x" type="Label" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD4"]
 offset_left = 112.0
 offset_top = 64.0
 offset_right = 144.0
@@ -378,7 +365,7 @@ offset_bottom = 123.0
 text = "×"
 label_settings = SubResource("LabelSettings_38ys3")
 
-[node name="Coins2" type="Label" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD2"]
+[node name="Coins2" type="Label" parent="GridContainer/PlayerViewportContainer4/SubViewport/HUD4"]
 offset_left = 144.0
 offset_top = 64.0
 offset_right = 368.0
@@ -415,5 +402,7 @@ fov = 40.0
 
 [connection signal="coin_collected" from="Player" to="GridContainer/PlayerViewportContainer1/SubViewport/HUD" method="_on_coin_collected"]
 [connection signal="coin_collected" from="Player2" to="GridContainer/PlayerViewportContainer2/SubViewport/HUD2" method="_on_player_2_coin_collected"]
+[connection signal="coin_collected" from="Player3" to="GridContainer/PlayerViewportContainer3/SubViewport/HUD3" method="_on_player_3_coin_collected"]
+[connection signal="coin_collected" from="Player4" to="GridContainer/PlayerViewportContainer4/SubViewport/HUD4" method="_on_player_4_coin_collected"]
 [connection signal="body_entered" from="World/flag2/flagcolision" to="Player" method="_on_flagcolision_body_entered"]
 [connection signal="body_entered" from="World/flag2/flagcolision" to="Player2" method="_on_flagcolision_body_entered"]
