@@ -32,23 +32,41 @@ shadow_offset = Vector2(2, 2)
 [node name="Main" type="Node3D"]
 script = ExtResource("1_4dej5")
 
+[node name="SpwanPositions" type="Node3D" parent="."]
+
+[node name="Player1SpwanPoint" type="Node3D" parent="SpwanPositions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.966093, 0)
+
+[node name="Player2SpwanPoint" type="Node3D" parent="SpwanPositions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.52018, 0.975401, -0.0382817)
+
+[node name="Player3SpwanPoint" type="Node3D" parent="SpwanPositions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.39905, 0.971792, -3.0304)
+
+[node name="Player4SpwanPoint" type="Node3D" parent="SpwanPositions"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.514249, 1.00559, -3.0304)
+
 [node name="Environment" type="WorldEnvironment" parent="."]
 environment = ExtResource("1_ahusb")
 
-[node name="Player" parent="." node_paths=PackedStringArray("view") instance=ExtResource("2_onms2")]
+[node name="Player" parent="." node_paths=PackedStringArray("view", "spawn_position") instance=ExtResource("2_onms2")]
 view = NodePath("../GridContainer/PlayerViewportContainer1/SubViewport/View")
+spawn_position = NodePath("../SpwanPositions/Player1SpwanPoint")
 
-[node name="Player2" parent="." instance=ExtResource("3_h6wf4")]
+[node name="Player2" parent="." node_paths=PackedStringArray("spawn_position") instance=ExtResource("3_h6wf4")]
 transform = Transform3D(1, 0, 2.98023e-08, 2.98023e-08, 1, 2.98023e-08, 2.98023e-08, 0, 1, 2.53042, 0.5, -1.19209e-07)
 player_id = 2
+spawn_position = NodePath("../SpwanPositions/Player2SpwanPoint")
 
-[node name="Player3" parent="." instance=ExtResource("5_iouns")]
+[node name="Player3" parent="." node_paths=PackedStringArray("spawn_position") instance=ExtResource("5_iouns")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45973, 0.5, -2.9203)
 player_id = 3
+spawn_position = NodePath("../SpwanPositions/Player3SpwanPoint")
 
-[node name="Player4" parent="." instance=ExtResource("6_kmckp")]
+[node name="Player4" parent="." node_paths=PackedStringArray("spawn_position") instance=ExtResource("6_kmckp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.529137, 0.525764, -2.88738)
 player_id = 4
+spawn_position = NodePath("../SpwanPositions/Player4SpwanPoint")
 
 [node name="World" type="Node3D" parent="."]
 

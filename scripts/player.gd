@@ -10,6 +10,7 @@ signal coin_collected
 @export var jump_strength = 7
 @export var player_initials = "AAA"
 @export var player_id = 1
+@export var spawn_position : Node3D 
 
 var movement_velocity: Vector3
 var rotation_direction: float
@@ -84,6 +85,16 @@ func _initialize():
 	#if !is_set(initials_entry2): #initials_entry2 == null:
 		#print("Node not found: ./GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4")
 		return
+	
+	
+func apply_velocity(_delta):
+	var applied_velocity: Vector3
+	applied_velocity = velocity.lerp(movement_velocity, _delta * 10)
+	applied_velocity.y = -gravity
+	
+	velocity = applied_velocity
+	move_and_slide()
+	
 
 func _physics_process(_delta):
 	# Handle functions
@@ -93,14 +104,14 @@ func _physics_process(_delta):
 	handle_effects(_delta)
 	
 	# Movement
-
-	var applied_velocity: Vector3
-	
-	applied_velocity = velocity.lerp(movement_velocity, _delta * 10)
-	applied_velocity.y = -gravity
-	
-	velocity = applied_velocity
-	move_and_slide()
+	apply_velocity(_delta)
+	#var applied_velocity: Vector3
+	#
+	#applied_velocity = velocity.lerp(movement_velocity, _delta * 10)
+	#applied_velocity.y = -gravity
+	#
+	#velocity = applied_velocity
+	#move_and_slide()
 	
 	# Rotation
 	
@@ -230,12 +241,18 @@ func _on_flagcolision_body_entered(_body):
 		#var key = "%s_%d,%d,%d" % [player_initials,player_id,coins,coins]
 		#high_scores.scores[key] = coins
 		#high_scores.save()
+		
+func reset_body():
+	position = spawn_position.position
+	movement_velocity = Vector3.ZERO
+	#velocity = Vector2.ZERO 
 	
 func _reload_game():
 	endgame = false
 	#falling doesnt end game
 	#TODO: globals and lives, per player
-	get_tree().reload_current_scene()
+	#get_tree().reload_current_scene()
+	reset_body()
 	
 #called once for each player
 func _end_game():
