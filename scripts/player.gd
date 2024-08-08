@@ -23,33 +23,22 @@ var jump_double = true
 
 var coins = 0
 
-var p1saved = false
-var p2saved = false
-var initialsNode
-var InitialsNode2
+#var p1saved = false
+#var p2saved = false
+#var initialsNode
+#var InitialsNode2
+var save_couht = 0
 var score_screen = false
 var initials_entry 
-#var initials_entry2 
-#var initials_entry3
-#var initials_entry4
-
-#var high_scores: SaveData = Global.scores
 
 @onready var particles_trail = $ParticlesTrail
 @onready var sound_footsteps = $SoundFootsteps
 @onready var model = $Character
 @onready var animation = $Character/AnimationPlayer
 @onready var endgame = false
-#@onready var initials_entry = $"../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry" #$"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2" $"../GridContainer/PlayerViewportContainer1/SubViewport/initialsentry"
-#@onready var initials_entry2 = $"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2"#$"../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2"
-#$"../initialsentry2"
 
 # Functions
-#func _ready():
-	#initials_entry.connect("save_complete", _on_save1_complete )
-	#initials_entry2.connect("save_complete", _on_save2_complete )
-	#ie2.player_id = player_id
-	#ie2.player_coins = coins
+
 func _ready():
 	# this check is due to start screen using a copy of the main scene/player scenes (current script) 
 	var current =  get_path().get_concatenated_names()
@@ -66,24 +55,9 @@ func is_set(object)->bool:
 func _initialize():
 	if !is_set(initials_entry):
 		initials_entry = get_node("../GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
-	#if !is_set(initials_entry2):
-		#initials_entry2 = get_node("../GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
-	#if !is_set(initials_entry3):
-		#initials_entry3 = get_node("../GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3")
-	#if !is_set(initials_entry4):
-		#initials_entry4 = get_node("../GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4")
-
+		
 	if !is_set(initials_entry):
 		print("Node not found: ./GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
-
-	#if !is_set(initials_entry2): #initials_entry2 == null:
-		#print("Node not found: ./GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2")
-		#
-	#if !is_set(initials_entry):
-		#print("Node not found: ./GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3")
-#
-	#if !is_set(initials_entry2): #initials_entry2 == null:
-		#print("Node not found: ./GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4")
 		return
 	
 	
@@ -105,13 +79,6 @@ func _physics_process(_delta):
 	
 	# Movement
 	apply_velocity(_delta)
-	#var applied_velocity: Vector3
-	#
-	#applied_velocity = velocity.lerp(movement_velocity, _delta * 10)
-	#applied_velocity.y = -gravity
-	#
-	#velocity = applied_velocity
-	#move_and_slide()
 	
 	# Rotation
 	
@@ -125,14 +92,15 @@ func _physics_process(_delta):
 		_end_game()
 		
 	if score_screen:
-		_show_scoreboard()
+		initials_entry.visible  = false
+		initials_entry._show_scoreboard()
+		score_screen = false
+		#_show_scoreboard()
 		
 	if position.y < -10:
-		_reload_game()
-		#get_tree().reload_current_scene()
+		reset_body()
 	
-	# Animation for scale (jumping and landing)
-	
+	# Animation for scale (jumping and landing)	
 	model.scale = model.scale.lerp(Vector3(1, 1, 1), _delta * 10)
 	
 	# Animation when landing
@@ -232,40 +200,22 @@ func collect_coin():
 func _on_flagcolision_body_entered(_body):
 	#don't remove nodes in signal, use bool instead
 	endgame = true
-	#get_tree().change_scene_to_file("res://scenes/gameover.tscn")
-	#print("wtf")
-	#pass # Replace with function body.
 	
-#func _add_highscore():
-	#if high_scores:
-		#var key = "%s_%d,%d,%d" % [player_initials,player_id,coins,coins]
-		#high_scores.scores[key] = coins
-		#high_scores.save()
 		
 func reset_body():
+	endgame = false
 	position = spawn_position.position
 	movement_velocity = Vector3.ZERO
 	#velocity = Vector2.ZERO 
 	
-func _reload_game():
-	endgame = false
-	#falling doesnt end game
-	#TODO: globals and lives, per player
-	#get_tree().reload_current_scene()
-	reset_body()
-	
 #called once for each player
 func _end_game():
-	#_add_highscore()
 	endgame = false
-	#TODO: get/save initials before scoreboard display
+	#get/save initials before scoreboard display
 	show_scene()
-	#get_tree().change_scene_to_file("res://scoreboard.tscn")
-	#get_tree().change_scene_to_file("res://scenes/gameovergui.tscn")
 	
 func show_scene():
-	#multi-player mode issue, lets get to 2 players
-	#TODO: add second player
+	#multi-player mode, each player has an "instance" of this script
 	if initials_entry == null:
 		return
 		
@@ -274,37 +224,13 @@ func show_scene():
 	initials_entry.player_id = player_id
 	initials_entry.player_coins = coins
 	initials_entry.refresh()
-	#initials_entry2.connect("save_complete", _on_save2_complete )
-	#initials_entry3.connect("save_complete", _on_save3_complete )
-	#initials_entry4.connect("save_complete", _on_save4_complete )
-	#if player_id == 1:
-		#initials_entry.player_id = player_id
-		#initials_entry.player_coins = coins
-		#initials_entry.refresh()
-	
-	#if player_id == 2:
-		#initials_entry2.player_id = player_id
-		#initials_entry2.player_coins = coins
-		#initials_entry2.refresh()
-		#
-	#if player_id == 3:
-		#initials_entry3.player_id = player_id
-		#initials_entry3.player_coins = coins
-		#initials_entry3.refresh()
-		#
-	#if player_id == 4:
-		#initials_entry4.player_id = player_id
-		#initials_entry4.player_coins = coins
-		#initials_entry4.refresh()
 	
 	initials_entry.visible = true  # Show the scene
-	#initials_entry2.visible = true
-	#initials_entry3.visible = true
-	#initials_entry4.visible = true
 	
 func _on_save_complete():
 	#maybe use a timer instead of saving each user?
-	Global.player_count
+	save_couht += 1 
+	#if Global.player_count <= save_couht:
 	score_screen = true
 
 
@@ -350,6 +276,6 @@ func _on_save_complete():
 	#else:
 		#p2saved = true
 		
-func _show_scoreboard():
-	get_tree().change_scene_to_file("res://scoreboard.tscn")
+#func _show_scoreboard():
+	#get_tree().change_scene_to_file("res://scoreboard.tscn")
 	

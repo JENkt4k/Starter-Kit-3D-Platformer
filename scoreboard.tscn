@@ -31,10 +31,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 200
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Border"]
 layout_mode = 2
@@ -48,7 +48,7 @@ theme_override_fonts/font = ExtResource("1_fvb6r")
 item_count = 3
 max_columns = 3
 same_column_width = true
-fixed_column_width = 275
+fixed_column_width = 100
 icon_mode = 0
 item_0/text = "Initials"
 item_1/text = "Time"
@@ -57,6 +57,7 @@ item_2/icon = ExtResource("2_den3c")
 script = ExtResource("5_v8nu8")
 
 [node name="gameovergui" parent="." instance=ExtResource("5_2bm1f")]
+visible = false
 layout_mode = 2
 anchors_preset = 0
 anchor_right = 0.0

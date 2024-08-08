@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scenes/PlayerStatLabel.gd" id="2_u2ekv"]
 [ext_resource type="Texture2D" uid="uid://csn5q1hkfae20" path="res://icon.png" id="3_8oxt1"]
 
-[node name="initialsentry" type="Control"]
+[node name="initialsentry" type="Control" node_paths=PackedStringArray("player_stats")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mwjdo")
+player_stats = NodePath("ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer3/PlayerStatLabel")
 
 [node name="HeaderImage" type="MarginContainer" parent="."]
 layout_mode = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bqqgyqafm7xwp"]
+[gd_scene load_steps=23 format=3 uid="uid://bqqgyqafm7xwp"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_4dej5"]
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_ahusb"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://scripts/hud.gd" id="11_apvpm"]
 [ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="13_drtpy"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="13_jfda3"]
+[ext_resource type="PackedScene" uid="uid://dm50h2jgg80ae" path="res://scoreboard.tscn" id="16_b3edp"]
 [ext_resource type="PackedScene" uid="uid://drfm7u2n3wjp2" path="res://scenes/initialsentry.tscn" id="16_xrl3q"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="17_tk810"]
 
@@ -205,7 +206,11 @@ handle_input_locally = false
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
-[node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
+visible = false
+scoreboard = NodePath("../scoreboard1")
+
+[node name="scoreboard1" parent="GridContainer/PlayerViewportContainer1/SubViewport" instance=ExtResource("16_b3edp")]
 visible = false
 
 [node name="HUD" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer1/SubViewport"]
@@ -257,7 +262,11 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer2/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer2/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
+visible = false
+scoreboard = NodePath("../scoreboard2")
+
+[node name="scoreboard2" parent="GridContainer/PlayerViewportContainer2/SubViewport" instance=ExtResource("16_b3edp")]
 visible = false
 
 [node name="HUD2" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer2/SubViewport"]
@@ -309,7 +318,11 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry3" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry3" parent="GridContainer/PlayerViewportContainer3/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
+visible = false
+scoreboard = NodePath("../scoreboard3")
+
+[node name="scoreboard3" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_b3edp")]
 visible = false
 
 [node name="HUD3" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer3/SubViewport"]
@@ -361,7 +374,11 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry4" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_xrl3q")]
+[node name="initialsentry4" parent="GridContainer/PlayerViewportContainer4/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
+visible = false
+scoreboard = NodePath("../scoreboard4")
+
+[node name="scoreboard4" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_b3edp")]
 visible = false
 
 [node name="HUD4" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer4/SubViewport"]

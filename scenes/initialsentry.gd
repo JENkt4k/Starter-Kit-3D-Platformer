@@ -2,6 +2,8 @@ extends Control
 
 signal save_complete
 
+@export var scoreboard: Control
+@export var player_stats: Label
 @export var player_initials: String = "PLA"
 @export var player_id: int = 0
 @export var player_coins: int = 0
@@ -22,13 +24,16 @@ func _add_highscore():
 		high_scores.save()
 	
 func refresh():
-	$ScoreMargin/MarginContainer2/VBoxContainer/HBoxContainer3/PlayerStatLabel.text = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]
+	player_stats.text = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
 
+func _show_scoreboard():
+	scoreboard.visible = true
+	#get_tree().change_scene_to_file("res://scoreboard.tscn")
 
 func _on_save_pressed():
 	player_initials = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text
