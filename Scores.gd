@@ -1,7 +1,7 @@
 extends ItemList
 
 var high_scores: SaveData = Global.scores
-@export var buffer: int = 100
+@export var buffer: int = 0
 
 
 
@@ -15,7 +15,7 @@ func _ready():
 
 	var width = position.x - buffer
 	width =  width - (parent.get_theme_constant("margin_left") + parent.get_theme_constant("margin_right"))
-	self.fixed_column_width = width/(self.max_columns)
+	self.fixed_column_width = int(width/(self.max_columns))
 
 	if high_scores:
 		display_high_scores()
@@ -56,16 +56,18 @@ func display_high_scores():
 		#list_container.add_child(list_item)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass #self.set_item_text(1,"%d" % [Global.score1])
+func _process(_delta):
+	pass
 
 func resize_columns():
 	var parent: MarginContainer = get_parent().get_parent()
-	var rec = parent.get_rect()
+	#var rec = parent.get_rect()
 	position = parent.get_rect().size
 	var width = position.x - buffer
 	width =  width - (parent.get_theme_constant("margin_left") + parent.get_theme_constant("margin_right"))
-	self.fixed_column_width = width/(self.max_columns)
+	if(width > 0):
+		var columns_width = floor(width/(self.max_columns))
+		self.fixed_column_width = columns_width #floor(width/(self.max_columns))
 
 
 func _on_scoreboard_resized():
