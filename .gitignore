@@ -20,3 +20,6 @@ build/
 *.pck 
 models/Textures/*.xcf
 *.xcf
+ExportPlatformer.zip
+Starter Kit 3D Platformer.x86_64
+Starter Kit 3D Platformer.sh
