@@ -203,7 +203,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/PlayerViewportContainer1"]
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(1280, 800)
 render_target_update_mode = 4
 
 [node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]

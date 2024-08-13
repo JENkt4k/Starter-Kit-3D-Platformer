@@ -17,3 +17,11 @@ func _on_start_pressed():
 
 func _on_quit_pressed():
 	get_tree().quit()
+
+
+func _on_countdown_timer_timeout() -> void:
+	self.visible = true
+
+
+#func _on_countdown_timer_ready() -> void:
+	#print("_on_countdown_timer_ready")

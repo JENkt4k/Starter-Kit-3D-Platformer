@@ -29,7 +29,7 @@ var coins = 0
 #var InitialsNode2
 var save_couht = 0
 var score_screen = false
-var initials_entry 
+var initials_entry : Control
 
 @onready var particles_trail = $ParticlesTrail
 @onready var sound_footsteps = $SoundFootsteps
@@ -218,8 +218,9 @@ func show_scene():
 	#multi-player mode, each player has an "instance" of this script
 	if initials_entry == null:
 		return
-		
-	initials_entry.connect("save_complete", _on_save_complete )
+	
+	if 	!initials_entry.is_connected("save_complete", _on_save_complete ):
+		initials_entry.connect("save_complete", _on_save_complete )
 
 	initials_entry.player_id = player_id
 	initials_entry.player_coins = coins

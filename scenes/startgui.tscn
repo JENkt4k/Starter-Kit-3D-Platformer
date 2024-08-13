@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp0uctjbj0h87"]
+[gd_scene load_steps=6 format=3 uid="uid://cp0uctjbj0h87"]
 
 [ext_resource type="Script" path="res://scenes/StartGameButton.gd" id="1_6mhf8"]
 [ext_resource type="Script" path="res://scenes/startgui.gd" id="1_edasy"]
 [ext_resource type="PackedScene" uid="uid://dbc0sc4s17erd" path="res://scenes/gamebackground_3d.tscn" id="1_xuere"]
 [ext_resource type="Script" path="res://scenes/SystemCheck.gd" id="4_yad0u"]
+[ext_resource type="Texture2D" uid="uid://gka7li4uclwm" path="res://sprites/running_steamdeck.svg" id="5_vinl1"]
 
 [node name="startgui" type="Control"]
 layout_mode = 3
@@ -58,6 +59,24 @@ Button X"
 layout_mode = 2
 text = "System Info"
 script = ExtResource("4_yad0u")
+
+[node name="SteamDeckContainer" type="VBoxContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/SteamDeckContainer"]
+layout_mode = 2
+text = "Running On"
+
+[node name="SteamDeck" type="TextureRect" parent="VBoxContainer/SteamDeckContainer"]
+layout_mode = 2
+texture = ExtResource("5_vinl1")
+stretch_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/SteamDeckContainer"]
+layout_mode = 2
+text = "Deck
+"
 
 [connection signal="changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_value_changed"]

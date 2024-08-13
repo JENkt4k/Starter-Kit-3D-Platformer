@@ -10,6 +10,9 @@ func _ready() -> void:
 	self.text += "Distro: " + OS.get_distribution_name() + "\n" # 3
 	self.text += "CPU: " + OS.get_processor_name() + "\n" # 4
 	self.text += "GPU: " + RenderingServer.get_rendering_device().get_device_name() + "\n" # 5
+	
+	if _is_steam_deck():
+		$"../SteamDeckContainer".visible = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

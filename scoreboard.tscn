@@ -15,6 +15,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vh2y8")
 
+[node name="CountdownTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [node name="Background" type="ColorRect" parent="."]
 visible = false
 layout_mode = 2
@@ -69,3 +73,5 @@ offset_bottom = 690.0
 
 [connection signal="resized" from="." to="Border/ScrollContainer/Scores" method="_on_scoreboard_resized"]
 [connection signal="size_flags_changed" from="." to="Border/ScrollContainer/Scores" method="_on_scoreboard_size_flags_changed"]
+[connection signal="timeout" from="CountdownTimer" to="." method="_on_countdown_timer_timeout"]
+[connection signal="timeout" from="CountdownTimer" to="gameovergui" method="_on_countdown_timer_timeout"]
