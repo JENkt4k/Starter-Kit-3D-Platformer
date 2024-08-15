@@ -2,6 +2,7 @@
 #multiplayer input is currenly and issue: https://github.com/godotengine/godot-proposals/issues/4295
 extends Control
 
+@warning_ignore("unused_signal")
 signal save_complete
 
 @export var scoreboard: Control

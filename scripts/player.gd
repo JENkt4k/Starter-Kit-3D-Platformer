@@ -284,7 +284,7 @@ func _on_save_complete():
 	
 
 
-func _on_p1_flagcolision_body_entered(body: Node3D) -> void:
+func _on_p1_flagcolision_body_entered(_body: Node3D) -> void:
 	if player_id == 1:
 		show_scene()
 	pass # Replace with function body.
