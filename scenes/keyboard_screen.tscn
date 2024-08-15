@@ -1,0 +1,269 @@
+[gd_scene load_steps=5 format=3 uid="uid://djeqahb44y7bq"]
+
+[ext_resource type="Script" path="res://scenes/keyboard_screen.gd" id="1_7xupp"]
+[ext_resource type="Script" path="res://scenes/keyboard_buttons.gd" id="2_clr6x"]
+[ext_resource type="Script" path="res://scenes/ButtonRowHBox_Numbers.gd" id="3_bio3y"]
+[ext_resource type="Script" path="res://scenes/ButtonRowHBox_Special.gd" id="4_viacl"]
+
+[node name="KeyboardScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7xupp")
+
+[node name="ButtonColumnVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DisplayLineEdit" type="LineEdit" parent="ButtonColumnVBox"]
+layout_mode = 2
+
+[node name="ButtonRowHBox_1" type="HBoxContainer" parent="ButtonColumnVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_clr6x")
+
+[node name="Button_A" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A"
+
+[node name="Button_B" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "B"
+
+[node name="Button_C" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "C"
+
+[node name="Button_D" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "D"
+
+[node name="Button_E" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "E"
+
+[node name="Button_F" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "F"
+
+[node name="Button_G" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "G"
+
+[node name="Button_H" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "H"
+
+[node name="Button_I" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_1"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "I"
+
+[node name="ButtonRowHBox_2" type="HBoxContainer" parent="ButtonColumnVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_clr6x")
+
+[node name="Button_J" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "J"
+
+[node name="Button_K" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "K"
+
+[node name="Button_L" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "L"
+
+[node name="Button_M" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "M"
+
+[node name="Button_N" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "N"
+
+[node name="Button_O" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "O"
+
+[node name="Button_P" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "P"
+
+[node name="Button_Q" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Q"
+
+[node name="Button_R" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "R"
+
+[node name="ButtonRowHBox_3" type="HBoxContainer" parent="ButtonColumnVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_clr6x")
+
+[node name="Button_S" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "S
+"
+
+[node name="Button_T" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "T"
+
+[node name="Button_U" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "U"
+
+[node name="Button_V" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "V"
+
+[node name="Button_W" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "W"
+
+[node name="Button_X" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X"
+
+[node name="Button_Y" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Y"
+
+[node name="Button_Z" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_3"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Z"
+
+[node name="ButtonRowHBox_Numbers" type="HBoxContainer" parent="ButtonColumnVBox" node_paths=PackedStringArray("displayLineEdit")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_bio3y")
+displayLineEdit = NodePath("../DisplayLineEdit")
+
+[node name="Button_1" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+
+[node name="Button_2" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+
+[node name="Button_3" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+
+[node name="Button_4" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+
+[node name="Button_5" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "5"
+
+[node name="Button_6" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "6"
+
+[node name="Button_7" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7"
+
+[node name="Button_8" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8"
+
+[node name="Button_9" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "9"
+
+[node name="Button_0" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Numbers"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="ButtonRowHBox_Special" type="HBoxContainer" parent="ButtonColumnVBox" node_paths=PackedStringArray("displayLineEdit")]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4_viacl")
+displayLineEdit = NodePath("../DisplayLineEdit")
+
+[node name="Button_Space" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Special"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Space
+"
+
+[node name="Button_Del" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Special"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Del"
+
+[node name="Button_Left" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Special"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "<"
+
+[node name="Button_Right" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Special"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
+
+[node name="Button_Save" type="Button" parent="ButtonColumnVBox/ButtonRowHBox_Special"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save
+"
+
+[connection signal="visibility_changed" from="ButtonColumnVBox/ButtonRowHBox_1" to="." method="_on_button_row_h_box_1_visibility_changed"]
+[connection signal="pressed" from="ButtonColumnVBox/ButtonRowHBox_Special/Button_Space" to="ButtonColumnVBox/ButtonRowHBox_Special" method="_on_button_space_pressed"]
+[connection signal="pressed" from="ButtonColumnVBox/ButtonRowHBox_Special/Button_Del" to="ButtonColumnVBox/ButtonRowHBox_Special" method="_on_button_del_pressed"]
+[connection signal="pressed" from="ButtonColumnVBox/ButtonRowHBox_Special/Button_Left" to="ButtonColumnVBox/ButtonRowHBox_Special" method="_on_button_left_pressed"]
+[connection signal="pressed" from="ButtonColumnVBox/ButtonRowHBox_Special/Button_Right" to="ButtonColumnVBox/ButtonRowHBox_Special" method="_on_button_right_pressed"]
+[connection signal="pressed" from="ButtonColumnVBox/ButtonRowHBox_Special/Button_Save" to="." method="_on_button_save_pressed"]

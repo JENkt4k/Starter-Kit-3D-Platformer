@@ -25,4 +25,4 @@ Starter Kit 3D Platformer.x86_64
 Starter Kit 3D Platformer.sh
 
 # Kenney ignores
-addons/godot-git*/
+addons/*

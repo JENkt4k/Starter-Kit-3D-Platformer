@@ -12,4 +12,3 @@ func _is_steam_deck() -> bool: # 1
 		return true
 	else: # 3
 		return false
-

@@ -57,7 +57,7 @@ func _initialize():
 		initials_entry = get_node("../GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
 		
 	if !is_set(initials_entry):
-		print("Node not found: ./GridContainer/PlayerViewportContainer1/SubViewport/initialsentry")
+		print("Node not found: ./GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
 		return
 	
 	
@@ -92,7 +92,7 @@ func _physics_process(_delta):
 		_end_game()
 		
 	if score_screen:
-		initials_entry.visible  = false
+		initials_entry.hide()#.visible  = false
 		initials_entry._show_scoreboard()
 		score_screen = false
 		#_show_scoreboard()
@@ -199,7 +199,9 @@ func collect_coin():
 
 func _on_flagcolision_body_entered(_body):
 	#don't remove nodes in signal, use bool instead
-	endgame = true
+	
+	#endgame = true
+	pass
 	
 		
 func reset_body():
@@ -226,7 +228,7 @@ func show_scene():
 	initials_entry.player_coins = coins
 	initials_entry.refresh()
 	
-	initials_entry.visible = true  # Show the scene
+	initials_entry.show() #.visible = true  # Show the scene
 	
 func _on_save_complete():
 	#maybe use a timer instead of saving each user?
@@ -280,3 +282,9 @@ func _on_save_complete():
 #func _show_scoreboard():
 	#get_tree().change_scene_to_file("res://scoreboard.tscn")
 	
+
+
+func _on_p1_flagcolision_body_entered(body: Node3D) -> void:
+	if player_id == 1:
+		show_scene()
+	pass # Replace with function body.

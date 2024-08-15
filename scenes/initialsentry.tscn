@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://drfm7u2n3wjp2"]
+[gd_scene load_steps=7 format=3 uid="uid://drfm7u2n3wjp2"]
 
 [ext_resource type="Script" path="res://scenes/initialsentry.gd" id="1_mwjdo"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="2_ii1to"]
 [ext_resource type="PackedScene" uid="uid://cvbjs5pdgw42m" path="res://scenes/confetti.tscn" id="2_o72xg"]
 [ext_resource type="Script" path="res://scenes/PlayerStatLabel.gd" id="2_u2ekv"]
 [ext_resource type="Texture2D" uid="uid://csn5q1hkfae20" path="res://icon.png" id="3_8oxt1"]
+[ext_resource type="PackedScene" uid="uid://djeqahb44y7bq" path="res://scenes/keyboard_screen.tscn" id="6_0rpm4"]
 
 [node name="initialsentry" type="Control" node_paths=PackedStringArray("player_stats")]
 layout_mode = 3
@@ -121,10 +122,27 @@ layout_mode = 2
 [node name="initials_input" type="TextEdit" parent="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_neighbor_left = NodePath("../Save")
+focus_neighbor_right = NodePath("../Save")
+focus_previous = NodePath("../Save")
 placeholder_text = "Enter your Initials Here"
 
 [node name="Save" type="Button" parent="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../initials_input")
+focus_neighbor_top = NodePath("../initials_input")
+focus_previous = NodePath("../initials_input")
 text = "Save"
 
+[node name="MarginContainer" type="MarginContainer" parent="ScoreMargin/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 125
+
+[node name="KeyboardScreen" parent="ScoreMargin/MarginContainer2/VBoxContainer" node_paths=PackedStringArray("outputLine") instance=ExtResource("6_0rpm4")]
+layout_mode = 2
+outputLine = NodePath("../EntryLine/initials_input")
+
+[connection signal="focus_entered" from="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input" to="." method="_on_initials_input_focus_entered"]
+[connection signal="focus_exited" from="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input" to="." method="_on_initials_input_focus_exited"]
 [connection signal="pressed" from="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/Save" to="." method="_on_save_pressed"]
+[connection signal="saved" from="ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen" to="." method="_on_keyboard_screen_saved"]

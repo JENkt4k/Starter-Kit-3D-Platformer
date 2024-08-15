@@ -203,7 +203,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="GridContainer/PlayerViewportContainer1"]
 handle_input_locally = false
-size = Vector2i(1280, 800)
+size = Vector2i(2, 2)
 render_target_update_mode = 4
 
 [node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
@@ -439,7 +439,9 @@ fov = 40.0
 [connection signal="coin_collected" from="Player2" to="GridContainer/PlayerViewportContainer2/SubViewport/HUD2" method="_on_player_2_coin_collected"]
 [connection signal="coin_collected" from="Player3" to="GridContainer/PlayerViewportContainer3/SubViewport/HUD3" method="_on_player_3_coin_collected"]
 [connection signal="coin_collected" from="Player4" to="GridContainer/PlayerViewportContainer4/SubViewport/HUD4" method="_on_player_4_coin_collected"]
-[connection signal="body_entered" from="World/flag2/flagcolision" to="Player" method="_on_flagcolision_body_entered"]
+[connection signal="body_entered" from="World/flag2/flagcolision" to="Player" method="_on_p1_flagcolision_body_entered"]
 [connection signal="body_entered" from="World/flag2/flagcolision" to="Player2" method="_on_flagcolision_body_entered"]
 [connection signal="body_entered" from="World/flag2/flagcolision" to="Player3" method="_on_flagcolision_body_entered"]
 [connection signal="body_entered" from="World/flag2/flagcolision" to="Player4" method="_on_flagcolision_body_entered"]
+[connection signal="gui_focus_changed" from="GridContainer/PlayerViewportContainer1/SubViewport" to="." method="_on_sub_viewport_gui_focus_changed"]
+[connection signal="visibility_changed" from="GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1" to="." method="_on_initialsentry_1_visibility_changed"]

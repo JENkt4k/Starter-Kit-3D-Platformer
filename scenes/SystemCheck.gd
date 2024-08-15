@@ -13,6 +13,9 @@ func _ready() -> void:
 	
 	if _is_steam_deck():
 		$"../SteamDeckContainer".visible = true
+		var is_supported = DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD)
+		if is_supported:
+			DisplayServer.virtual_keyboard_show("It works")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

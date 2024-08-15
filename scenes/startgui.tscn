@@ -44,6 +44,14 @@ value = 1.0
 layout_mode = 2
 text = "Players"
 
+[node name="PlayerSlider" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 4.0
+value = 1.0
+tick_count = 4
+ticks_on_borders = true
+
 [node name="StartGame" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start
@@ -80,5 +88,7 @@ text = "Deck
 
 [connection signal="changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_changed"]
 [connection signal="value_changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_value_changed"]
+[connection signal="changed" from="VBoxContainer/PlayerSlider" to="." method="_on_player_slider_changed"]
+[connection signal="value_changed" from="VBoxContainer/PlayerSlider" to="." method="_on_player_slider_value_changed"]
 [connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

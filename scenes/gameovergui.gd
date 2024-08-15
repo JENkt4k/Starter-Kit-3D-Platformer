@@ -20,6 +20,7 @@ func _on_quit_pressed():
 
 
 func _on_countdown_timer_timeout() -> void:
+	$VBoxContainer/Start.grab_focus()
 	self.visible = true
 
 
