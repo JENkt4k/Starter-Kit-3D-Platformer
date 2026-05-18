@@ -1,4 +1,6 @@
 extends Control
+
+@warning_ignore("unused_signal")
 signal saved 
 
 @export var outputLine: TextEdit

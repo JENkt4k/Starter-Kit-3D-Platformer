@@ -117,6 +117,7 @@ text = "Congradulations!!!
 script = ExtResource("2_u2ekv")
 
 [node name="EntryLine" type="HBoxContainer" parent="ScoreMargin/MarginContainer2/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="initials_input" type="TextEdit" parent="ScoreMargin/MarginContainer2/VBoxContainer/EntryLine"]
