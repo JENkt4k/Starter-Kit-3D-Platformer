@@ -11,6 +11,7 @@ signal coin_collected
 @export var player_initials = "AAA"
 @export var player_id = 1
 @export var spawn_position : Node3D 
+@export var active = true
 
 var movement_velocity: Vector3
 var rotation_direction: float
@@ -60,6 +61,26 @@ func _initialize():
 		print("Node not found: ./GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
 		return
 	
+func set_active(value: bool) -> void:
+	active = value
+	visible = value
+	set_physics_process(value)
+	set_process(value)
+	set_process_input(value)
+	set_process_unhandled_input(value)
+
+	if has_node("Collider"):
+		$Collider.disabled = !value
+
+	if !value:
+		movement_velocity = Vector3.ZERO
+		velocity = Vector3.ZERO
+		gravity = 0
+		particles_trail.emitting = false
+		sound_footsteps.stream_paused = true
+	elif spawn_position != null:
+		reset_body()
+	
 	
 func apply_velocity(_delta):
 	var applied_velocity: Vector3
@@ -71,6 +92,9 @@ func apply_velocity(_delta):
 	
 
 func _physics_process(_delta):
+	if !active:
+		return
+
 	# Handle functions
 	handle_controls(_delta)
 	handle_gravity(_delta)
@@ -191,22 +215,26 @@ func jump():
 # Collecting coins
 
 func collect_coin():
+	if !active:
+		return
 	
 	coins += 1
 	
 	coin_collected.emit(coins)
 
 
-func _on_flagcolision_body_entered(_body):
+func _on_flagcolision_body_entered(body):
 	#don't remove nodes in signal, use bool instead
 	
 	#endgame = true
-	pass
+	if active and body == self:
+		show_scene()
 	
 		
 func reset_body():
 	endgame = false
-	position = spawn_position.position
+	if spawn_position != null:
+		position = spawn_position.position
 	movement_velocity = Vector3.ZERO
 	#velocity = Vector2.ZERO 
 	
@@ -218,6 +246,9 @@ func _end_game():
 	
 func show_scene():
 	#multi-player mode, each player has an "instance" of this script
+	if !active:
+		return
+
 	if initials_entry == null:
 		return
 	
@@ -285,6 +316,6 @@ func _on_save_complete():
 
 
 func _on_p1_flagcolision_body_entered(_body: Node3D) -> void:
-	if player_id == 1:
+	if active and _body == self and player_id == 1:
 		show_scene()
 	pass # Replace with function body.

@@ -15,7 +15,7 @@ func _process(_delta):
 
 
 func _on_start_pressed():
-	Global.player_count = player_count_spin_box.value
+	Global.player_count = clampi(int(player_count_spin_box.value), 1, 4)
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 
