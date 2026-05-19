@@ -3,6 +3,7 @@ extends Node
 var scores: SaveData
 
 var player_count: int = 1
+var victory_results: Array[Dictionary] = []
 
 func _ready():
 	scores = SaveData.load_or_create("user://testdata.tres")#SaveData.data_path)

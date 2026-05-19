@@ -1,0 +1,400 @@
+[gd_scene format=3 uid="uid://daesk0l5dc3eb"]
+
+[ext_resource type="Script" uid="uid://b66yxvd8jn5r8" path="res://scenes/victory.gd" id="1_victory"]
+[ext_resource type="PackedScene" uid="uid://cvbjs5pdgw42m" path="res://scenes/confetti.tscn" id="2_confetti"]
+[ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="3_player1"]
+[ext_resource type="PackedScene" uid="uid://dbb5xpyaqtabg" path="res://objects/player2.tscn" id="4_player2"]
+[ext_resource type="PackedScene" uid="uid://cvi3hcfcx2i4y" path="res://objects/player3.tscn" id="5_player3"]
+[ext_resource type="PackedScene" uid="uid://cxdv7j65grgtw" path="res://objects/player4.tscn" id="6_player4"]
+
+[sub_resource type="Environment" id="Environment_victory"]
+background_mode = 1
+background_color = Color(0.08, 0.16, 0.24, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.65, 0.76, 0.9, 1)
+ambient_light_energy = 0.75
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(13, 0.25, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_floor"]
+albedo_color = Color(0.12, 0.36, 0.28, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_marker"]
+size = Vector3(0.18, 1.25, 0.18)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_marker"]
+albedo_color = Color(0.9, 0.68, 0.23, 1)
+emission_enabled = true
+emission = Color(0.7, 0.36, 0.08, 1)
+emission_energy_multiplier = 0.18
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium1"]
+size = Vector3(1.65, 2.05, 1.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_gold"]
+albedo_color = Color(0.95, 0.73, 0.25, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium2"]
+size = Vector3(1.65, 1.55, 1.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_silver"]
+albedo_color = Color(0.72, 0.76, 0.82, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium3"]
+size = Vector3(1.65, 1.2, 1.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_bronze"]
+albedo_color = Color(0.72, 0.42, 0.2, 1)
+roughness = 0.65
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium4"]
+size = Vector3(1.65, 0.95, 1.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial_blue"]
+albedo_color = Color(0.26, 0.45, 0.64, 1)
+roughness = 0.65
+
+[node name="Victory" type="Control" unique_id=1375982210]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_victory")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1908668281]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.12295761, 0.0052318787, 0.15864047, 1)
+
+[node name="Viewport" type="SubViewportContainer" parent="." unique_id=349158307]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Viewport" unique_id=35974422]
+handle_input_locally = false
+size = Vector2i(1280, 800)
+render_target_update_mode = 4
+
+[node name="VictoryWorld" type="Node3D" parent="Viewport/SubViewport" unique_id=1081984738]
+
+[node name="Environment" type="WorldEnvironment" parent="Viewport/SubViewport/VictoryWorld" unique_id=142090872]
+environment = SubResource("Environment_victory")
+
+[node name="Camera3D" type="Camera3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=333836990]
+transform = Transform3D(1, 0, 0, 0, 0.927184, 0.374607, 0, -0.374607, 0.927184, 0, 4.8, 8.5)
+current = true
+fov = 48.0
+
+[node name="Sun" type="DirectionalLight3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=318729713]
+transform = Transform3D(0.906308, 0.298836, -0.298836, 0, 0.707107, 0.707107, 0.422618, -0.640856, 0.640856, 0, 0, 0)
+light_energy = 1.5
+
+[node name="FillLight" type="OmniLight3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=1268380688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 3)
+light_energy = 1.2
+omni_range = 12.0
+
+[node name="StageFloor" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=836460387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial_floor")
+
+[node name="BackdropMarkers" type="Node3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=1602764006]
+
+[node name="Marker1" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=1686518307]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, -4.8, 1.25, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker2" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=1322135076]
+transform = Transform3D(1, 0, 0, 0, 1.08, 0, 0, 0, 1, -3.2, 1.43, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker3" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=1535723821]
+transform = Transform3D(1, 0, 0, 0, 1.36, 0, 0, 0, 1, -1.6, 1.61, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker4" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=12560285]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0, 1.25, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker5" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=447749901]
+transform = Transform3D(1, 0, 0, 0, 1.08, 0, 0, 0, 1, 1.6, 1.43, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker6" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=1371309421]
+transform = Transform3D(1, 0, 0, 0, 1.36, 0, 0, 0, 1, 3.2, 1.61, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="Marker7" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/BackdropMarkers" unique_id=1922684381]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 4.8, 1.25, -1.55)
+mesh = SubResource("BoxMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial_marker")
+
+[node name="PodiumSlots" type="Node3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=804798084]
+
+[node name="Slot1" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots" unique_id=1954204867]
+
+[node name="Podium" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1" unique_id=1997589848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.025, 0)
+mesh = SubResource("BoxMesh_podium1")
+surface_material_override/0 = SubResource("StandardMaterial_gold")
+
+[node name="RankLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1" unique_id=1724115272]
+transform = Transform3D(1, 0, 0, 0, 0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 2.11, 0.78)
+pixel_size = 0.012
+modulate = Color(0.04, 0.04, 0.05, 1)
+text = "1"
+font_size = 96
+
+[node name="CharacterAnchor" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1" unique_id=614746715]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.33, 0)
+
+[node name="Player1Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1/CharacterAnchor" unique_id=1744442861 instance=ExtResource("3_player1")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player2Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1/CharacterAnchor" unique_id=306952818 instance=ExtResource("4_player2")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player3Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1/CharacterAnchor" unique_id=1882937212 instance=ExtResource("5_player3")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player4Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1/CharacterAnchor" unique_id=214068416 instance=ExtResource("6_player4")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1" unique_id=521664178]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 4.35, 0)
+pixel_size = 0.012
+text = "AAA
+0 coins
+00:00"
+font_size = 56
+outline_size = 10
+
+[node name="Slot2" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots" unique_id=753783698]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0, 0.35)
+
+[node name="Podium" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2" unique_id=1898879207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.775, 0)
+mesh = SubResource("BoxMesh_podium2")
+surface_material_override/0 = SubResource("StandardMaterial_silver")
+
+[node name="RankLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2" unique_id=1591900832]
+transform = Transform3D(1, 0, 0, 0, 0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 1.61, 0.78)
+pixel_size = 0.012
+modulate = Color(0.04, 0.04, 0.05, 1)
+text = "2"
+font_size = 96
+
+[node name="CharacterAnchor" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2" unique_id=1873950348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.83, 0)
+
+[node name="Player1Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2/CharacterAnchor" unique_id=1135451992 instance=ExtResource("3_player1")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player2Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2/CharacterAnchor" unique_id=145971223 instance=ExtResource("4_player2")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player3Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2/CharacterAnchor" unique_id=1403439753 instance=ExtResource("5_player3")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player4Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2/CharacterAnchor" unique_id=276688099 instance=ExtResource("6_player4")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2" unique_id=668482316]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.85, 0)
+pixel_size = 0.012
+text = "AAA
+0 coins
+00:00"
+font_size = 56
+outline_size = 10
+
+[node name="Slot3" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots" unique_id=922695625]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 0, 0.45)
+
+[node name="Podium" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3" unique_id=1133461697]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("BoxMesh_podium3")
+surface_material_override/0 = SubResource("StandardMaterial_bronze")
+
+[node name="RankLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3" unique_id=2081305990]
+transform = Transform3D(1, 0, 0, 0, 0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 1.26, 0.78)
+pixel_size = 0.012
+modulate = Color(0.04, 0.04, 0.05, 1)
+text = "3"
+font_size = 96
+
+[node name="CharacterAnchor" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3" unique_id=608161485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.48, 0)
+
+[node name="Player1Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3/CharacterAnchor" unique_id=492145598 instance=ExtResource("3_player1")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player2Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3/CharacterAnchor" unique_id=595321634 instance=ExtResource("4_player2")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player3Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3/CharacterAnchor" unique_id=392869723 instance=ExtResource("5_player3")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player4Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3/CharacterAnchor" unique_id=1992922804 instance=ExtResource("6_player4")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3" unique_id=452110891]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.5, 0)
+pixel_size = 0.012
+text = "AAA
+0 coins
+00:00"
+font_size = 56
+outline_size = 10
+
+[node name="Slot4" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots" unique_id=864479376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.35, 0, 0.75)
+
+[node name="Podium" type="MeshInstance3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4" unique_id=1448517449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
+mesh = SubResource("BoxMesh_podium4")
+surface_material_override/0 = SubResource("StandardMaterial_blue")
+
+[node name="RankLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4" unique_id=1783540416]
+transform = Transform3D(1, 0, 0, 0, 0.990268, 0.139173, 0, -0.139173, 0.990268, 0, 1.01, 0.78)
+pixel_size = 0.012
+modulate = Color(0.04, 0.04, 0.05, 1)
+text = "4"
+font_size = 96
+
+[node name="CharacterAnchor" type="Node3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4" unique_id=470371596]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23, 0)
+
+[node name="Player1Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4/CharacterAnchor" unique_id=1053556877 instance=ExtResource("3_player1")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player2Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4/CharacterAnchor" unique_id=505346979 instance=ExtResource("4_player2")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player3Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4/CharacterAnchor" unique_id=1333120064 instance=ExtResource("5_player3")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="Player4Model" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4/CharacterAnchor" unique_id=1717056679 instance=ExtResource("6_player4")]
+transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
+visible = false
+
+[node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4" unique_id=775771294]
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.25, 0)
+pixel_size = 0.012
+text = "AAA
+0 coins
+00:00"
+font_size = 56
+outline_size = 10
+
+[node name="Confetti1" parent="." unique_id=752155240 instance=ExtResource("2_confetti")]
+position = Vector2(160, 130)
+
+[node name="Confetti2" parent="." unique_id=1927355382 instance=ExtResource("2_confetti")]
+position = Vector2(384, 130)
+
+[node name="Confetti3" parent="." unique_id=2049557371 instance=ExtResource("2_confetti")]
+position = Vector2(640, 130)
+
+[node name="Confetti4" parent="." unique_id=1467114245 instance=ExtResource("2_confetti")]
+position = Vector2(896, 130)
+
+[node name="Confetti5" parent="." unique_id=531415908 instance=ExtResource("2_confetti")]
+position = Vector2(1120, 130)
+
+[node name="Overlay" type="Control" parent="." unique_id=264756462]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Overlay" unique_id=280080015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 30
+
+[node name="Layout" type="VBoxContainer" parent="Overlay/Margin" unique_id=1900736363]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Overlay/Margin/Layout" unique_id=1034316548]
+layout_mode = 2
+theme_override_font_sizes/font_size = 62
+text = "Victory"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Overlay/Margin/Layout" unique_id=361437398]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Final campaign podium"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Overlay/Margin/Layout" unique_id=585528508]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Actions" type="HBoxContainer" parent="Overlay/Margin/Layout" unique_id=918030844]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PlayAgain" type="Button" parent="Overlay/Margin/Layout/Actions" unique_id=1199863714]
+custom_minimum_size = Vector2(180, 48)
+layout_mode = 2
+text = "Play Again"
+
+[node name="MainMenu" type="Button" parent="Overlay/Margin/Layout/Actions" unique_id=158398912]
+custom_minimum_size = Vector2(180, 48)
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Quit" type="Button" parent="Overlay/Margin/Layout/Actions" unique_id=1854758865]
+custom_minimum_size = Vector2(180, 48)
+layout_mode = 2
+text = "Quit"

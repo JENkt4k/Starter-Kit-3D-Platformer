@@ -48,10 +48,12 @@ var current_level_index := 0
 var finished_player_ids := {}
 var current_level_root: Node3D
 var level_transition_pending := false
+var campaign_results_by_level := {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	Global.victory_results.clear()
 	_ensure_pause_input()
 	_build_pause_menu()
 	_build_level_complete_menu()
@@ -135,6 +137,9 @@ func _advance_level() -> void:
 	level_transition_pending = false
 	if level_scenes.is_empty():
 		_reset_current_level()
+	elif current_level_index >= level_scenes.size() - 1:
+		_prepare_victory_results()
+		get_tree().change_scene_to_file("res://scenes/victory.tscn")
 	else:
 		_load_level(current_level_index + 1)
 
@@ -284,8 +289,8 @@ func _show_level_complete_menu() -> void:
 		level_complete_title.text = "Level Complete"
 		continue_button.text = "Restart Level"
 	elif current_level_index >= level_scenes.size() - 1:
-		level_complete_title.text = "Victory!"
-		continue_button.text = "Play Again"
+		level_complete_title.text = "Campaign Complete"
+		continue_button.text = "View Victory"
 	else:
 		level_complete_title.text = "Level Complete"
 		continue_button.text = "Continue to Level %d" % [current_level_index + 2]
@@ -340,6 +345,7 @@ func _on_player_score_saved(player) -> void:
 		return
 
 	finished_player_ids[player.player_id] = true
+	_record_campaign_result(player)
 
 	var scoreboard := scoreboards[player_index]
 	if scoreboard.has_method("show_scores"):
@@ -367,6 +373,50 @@ func _on_replay_level_pressed() -> void:
 func _on_flag_body_entered(body: Node3D) -> void:
 	if body != null and body.has_method("show_scene"):
 		body.show_scene()
+
+func _record_campaign_result(player) -> void:
+	if !campaign_results_by_level.has(current_level_index):
+		campaign_results_by_level[current_level_index] = {}
+
+	var initials: String = player.player_initials
+	if player.initials_entry != null:
+		initials = player.initials_entry.player_initials
+
+	campaign_results_by_level[current_level_index][player.player_id] = {
+		"player_id": player.player_id,
+		"initials": initials,
+		"coins": player.coins,
+		"time": player.elapsed_time,
+	}
+
+func _prepare_victory_results() -> void:
+	var totals := {}
+	for level_results in campaign_results_by_level.values():
+		for result in level_results.values():
+			var player_id: int = result["player_id"]
+			if !totals.has(player_id):
+				totals[player_id] = {
+					"player_id": player_id,
+					"initials": result["initials"],
+					"coins": 0,
+					"time": 0.0,
+				}
+
+			totals[player_id]["initials"] = result["initials"]
+			totals[player_id]["coins"] += result["coins"]
+			totals[player_id]["time"] += result["time"]
+
+	var results: Array[Dictionary] = []
+	for player_id in totals.keys():
+		results.append(totals[player_id])
+
+	results.sort_custom(_compare_victory_results)
+	Global.victory_results = results
+
+func _compare_victory_results(a: Dictionary, b: Dictionary) -> bool:
+	if a["coins"] == b["coins"]:
+		return a["time"] < b["time"]
+	return a["coins"] > b["coins"]
 
 
 
