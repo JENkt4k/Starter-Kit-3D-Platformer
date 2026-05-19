@@ -18,13 +18,8 @@ func show_scores() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if self.visible == true and !$gameovergui.visible:
-		if $CountdownTimer.is_stopped() or $CountdownTimer.paused:
-			$CountdownTimer.start()
-			print("Timer started: x secs = %d" % [$CountdownTimer.time_left])
 	pass
 
 
 func _on_countdown_timer_timeout() -> void:
-	print("_on_countdown_timer_timeout")
-	$gameovergui.visible = true
+	pass

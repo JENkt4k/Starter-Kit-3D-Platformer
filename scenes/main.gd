@@ -24,6 +24,12 @@ const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 	$GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3,
 	$GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4,
 ]
+@onready var player_subviewports = [
+	$GridContainer/PlayerViewportContainer1/SubViewport,
+	$GridContainer/PlayerViewportContainer2/SubViewport,
+	$GridContainer/PlayerViewportContainer3/SubViewport,
+	$GridContainer/PlayerViewportContainer4/SubViewport,
+]
 #@onready var player_1_iniital_entry = $GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1
 @onready var player_1_iniital_entry_screen : Button = $GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1/ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen/ButtonColumnVBox/ButtonRowHBox_1/Button_A
 #$ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen/ButtonColumnVBox/ButtonRowHBox_1/Button_A
@@ -31,14 +37,14 @@ const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 
 var pause_menu_layer: CanvasLayer
 var resume_button: Button
-var shared_scoreboard: Control
+var scoreboards: Array[Control] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ensure_pause_input()
 	_build_pause_menu()
-	_build_shared_scoreboard()
+	_build_player_scoreboards()
 	_configure_player_slots()
 	setViews(view_container, Global.player_count)
 	#player_1_iniital_entry.visibility_changed.connect(func(): 
@@ -149,14 +155,15 @@ func _build_pause_menu() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	buttons.add_child(quit_button)
 
-func _build_shared_scoreboard() -> void:
-	var scoreboard_layer := CanvasLayer.new()
-	scoreboard_layer.name = "SharedScoreboard"
-	add_child(scoreboard_layer)
-
-	shared_scoreboard = SCOREBOARD_SCENE.instantiate()
-	shared_scoreboard.visible = false
-	scoreboard_layer.add_child(shared_scoreboard)
+func _build_player_scoreboards() -> void:
+	scoreboards.clear()
+	for i in range(MAX_PLAYERS):
+		var scoreboard := SCOREBOARD_SCENE.instantiate()
+		scoreboard.visible = false
+		scoreboard.name = "scoreboard%d" % [i + 1]
+		player_subviewports[i].add_child(scoreboard)
+		scoreboard.set_anchors_preset(Control.PRESET_FULL_RECT)
+		scoreboards.append(scoreboard)
 
 func _configure_player_slots() -> void:
 	for i in range(MAX_PLAYERS):
@@ -183,11 +190,16 @@ func _on_main_menu_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 
-func _on_player_score_saved(_player) -> void:
-	if shared_scoreboard.has_method("show_scores"):
-		shared_scoreboard.show_scores()
+func _on_player_score_saved(player) -> void:
+	var player_index: int = player.player_id - 1
+	if player_index < 0 or player_index >= scoreboards.size():
+		return
+
+	var scoreboard := scoreboards[player_index]
+	if scoreboard.has_method("show_scores"):
+		scoreboard.show_scores()
 	else:
-		shared_scoreboard.visible = true
+		scoreboard.visible = true
 
 func _on_flag_body_entered(body: Node3D) -> void:
 	if body != null and body.has_method("show_scene"):
