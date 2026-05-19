@@ -25,6 +25,7 @@ var jump_double = true
 
 var coins = 0
 var elapsed_time = 0.0
+var finished = false
 
 var initials_entry : Control
 
@@ -78,6 +79,15 @@ func set_active(value: bool) -> void:
 		sound_footsteps.stream_paused = true
 	elif spawn_position != null:
 		reset_body()
+
+func reset_for_level() -> void:
+	finished = false
+	elapsed_time = 0.0
+	coins = 0
+	coin_collected.emit(coins)
+	if initials_entry != null:
+		initials_entry.hide()
+	reset_body()
 	
 	
 func apply_velocity(_delta):
@@ -221,7 +231,8 @@ func reset_body():
 	if spawn_position != null:
 		position = spawn_position.position
 	movement_velocity = Vector3.ZERO
-	#velocity = Vector2.ZERO 
+	velocity = Vector3.ZERO
+	gravity = 0
 	
 #called once for each player
 func _end_game():
@@ -233,9 +244,13 @@ func show_scene():
 	#multi-player mode, each player has an "instance" of this script
 	if !active:
 		return
+	if finished:
+		return
 
 	if initials_entry == null:
 		return
+
+	finished = true
 	
 	if 	!initials_entry.is_connected("save_complete", _on_save_complete ):
 		initials_entry.connect("save_complete", _on_save_complete )

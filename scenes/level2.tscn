@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://d4ixulwpoeipn"]
+
+[ext_resource type="PackedScene" uid="uid://cnymdajj1vsqm" path="res://objects/platform.tscn" id="1_platform"]
+[ext_resource type="PackedScene" uid="uid://rjh4ifidqrfp" path="res://objects/platform_medium.tscn" id="2_platform_medium"]
+[ext_resource type="PackedScene" uid="uid://c8up71en5djgm" path="res://objects/platform_falling.tscn" id="3_platform_falling"]
+[ext_resource type="PackedScene" uid="uid://uqr4hswv6d2g" path="res://objects/platform_grass_large_round.tscn" id="4_platform_round"]
+[ext_resource type="PackedScene" uid="uid://dbmkur7544e82" path="res://flag.tscn" id="5_flag"]
+[ext_resource type="PackedScene" uid="uid://dtjvjdjl8cs6e" path="res://models/flag.glb" id="6_flag_hidden"]
+[ext_resource type="PackedScene" uid="uid://dfpisimsgf5ce" path="res://objects/coin.tscn" id="7_coin"]
+[ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="8_cloud"]
+[ext_resource type="PackedScene" path="res://objects/bounce_pad.tscn" id="9_bounce"]
+[ext_resource type="PackedScene" path="res://objects/spinning_hazard.tscn" id="10_hazard"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_goal"]
+size = Vector3(0.524902, 1.32788, 0.881348)
+
+[node name="Level2" type="Node3D" unique_id=761831608]
+
+[node name="start_platform" parent="." unique_id=780492528 instance=ExtResource("1_platform")]
+
+[node name="start_platform2" parent="." unique_id=2042546013 instance=ExtResource("1_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45548, 0, 0)
+
+[node name="start_platform3" parent="." unique_id=753619860 instance=ExtResource("1_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45548, 0, -3)
+
+[node name="start_platform4" parent="." unique_id=748079398 instance=ExtResource("1_platform")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.54452, 0, -3)
+
+[node name="ramp_platform" parent="." unique_id=1462006832 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -4, 1.25, -2)
+
+[node name="hazard_platform" parent="." unique_id=1972338849 instance=ExtResource("4_platform_round")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2, -2.5)
+
+[node name="SpinningHazard" parent="." unique_id=1108171826 instance=ExtResource("10_hazard")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -7.5, 2.75, -2.5)
+
+[node name="bounce_landing" parent="." unique_id=931455667 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -11.5, 3.4, 1)
+
+[node name="bounce_landing2" parent="." unique_id=57840677 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -15.966768, 4.057037, -0.56430864)
+
+[node name="bounce_landing3" parent="." unique_id=1708557547 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -20.283321, 5.066027, -0.54069376)
+
+[node name="bounce_landing4" parent="." unique_id=414107857 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.996195, 0, 0.0871557, 0, 1, 0, -0.0871557, 0, 0.996195, -23.72624, 7.3678718, -5.205155)
+
+[node name="BouncePad" parent="." unique_id=1181807388 instance=ExtResource("9_bounce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 3.75, 1)
+
+[node name="BouncePad2" parent="." unique_id=1801929559 instance=ExtResource("9_bounce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.94247, 4.3645973, -0.65172577)
+
+[node name="BouncePad3" parent="." unique_id=1676624044 instance=ExtResource("9_bounce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.293514, 5.394914, -0.65172577)
+
+[node name="BouncePad4" parent="." unique_id=1268515724 instance=ExtResource("9_bounce")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.797585, 7.659824, -5.4996977)
+
+[node name="platform_medium" parent="." unique_id=194431243 instance=ExtResource("2_platform_medium")]
+transform = Transform3D(0.984687, 0, 0.17433569, 0, 1, 0, -0.17433569, 0, 0.984687, -20.79066, 8.28903, -4.943688)
+
+[node name="air_coin1" parent="." unique_id=872732948 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 6, 1)
+
+[node name="air_coin2" parent="." unique_id=868508757 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.6, 6.8, -0.2)
+
+[node name="falling_platform" parent="." unique_id=829600790 instance=ExtResource("3_platform_falling")]
+transform = Transform3D(0.984808, 0, 0.173648, 0, 1, 0, -0.173648, 0, 0.984808, -15.5, 5.25, -1.5)
+
+[node name="falling_platform2" parent="." unique_id=519470583 instance=ExtResource("3_platform_falling")]
+transform = Transform3D(0.996195, 0, -0.0871557, 0, 1, 0, 0.0871557, 0, 0.996195, -18.25, 5.85, -4)
+
+[node name="goal_platform" parent="." unique_id=1955557827 instance=ExtResource("4_platform_round")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 6.3, -4.5)
+
+[node name="flag_hidden" parent="." unique_id=1158484846 instance=ExtResource("6_flag_hidden")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -21, 8.78, -4.5)
+visible = false
+
+[node name="flag2" parent="." unique_id=516291046 instance=ExtResource("5_flag")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -21, 8.78, -4.5)
+
+[node name="flagcolision" type="Area3D" parent="flag2" unique_id=1157192828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00315189, 0.17724, -0.0138445)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="flag2/flagcolision" unique_id=1203819206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0168457, 0.667603, 0.275146)
+shape = SubResource("BoxShape3D_goal")
+
+[node name="coin1" parent="." unique_id=1140265997 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2, -2)
+
+[node name="coin2" parent="." unique_id=1240729345 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 3, -2.5)
+
+[node name="coin3" parent="." unique_id=2085537892 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.5, 6.1, -1.5)
+
+[node name="coin4" parent="." unique_id=1409135966 instance=ExtResource("7_coin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.25, 6.7, -4)
+
+[node name="cloud" parent="." unique_id=1771448691 instance=ExtResource("8_cloud")]
+transform = Transform3D(1.27593, -0.401864, 0.422933, 0.471408, 1.30937, -0.178025, -0.343721, 0.304009, 1.32582, -10.5, 7.2, -7.5)

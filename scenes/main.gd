@@ -4,6 +4,8 @@ const MAX_PLAYERS := 4
 const PAUSE_ACTION := "pause_menu"
 const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 
+@export var level_scenes: Array[PackedScene] = []
+
 # Reference to the GridContainer in your main scene
 @onready var view_container = $GridContainer
 @onready var player1_subview_container = $GridContainer/PlayerViewportContainer1
@@ -11,6 +13,7 @@ const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 @onready var player3_subview_container = $GridContainer/PlayerViewportContainer3
 @onready var player4_subview_container = $GridContainer/PlayerViewportContainer4
 @onready var minimap_subview_container = $GridContainer/MiniViewportContainer 
+@onready var embedded_world = $World
 @onready var players = [$Player, $Player2, $Player3, $Player4]
 @onready var player_views = [
 	$GridContainer/PlayerViewportContainer1/SubViewport/View,
@@ -37,16 +40,25 @@ const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 
 var pause_menu_layer: CanvasLayer
 var resume_button: Button
+var level_complete_menu_layer: CanvasLayer
+var continue_button: Button
+var level_complete_title: Label
 var scoreboards: Array[Control] = []
+var current_level_index := 0
+var finished_player_ids := {}
+var current_level_root: Node3D
+var level_transition_pending := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ensure_pause_input()
 	_build_pause_menu()
+	_build_level_complete_menu()
 	_build_player_scoreboards()
 	_configure_player_slots()
 	setViews(view_container, Global.player_count)
+	_load_level(current_level_index)
 	#player_1_iniital_entry.visibility_changed.connect(func(): 
 		#self._on_initialsentry_visibility_changed(1)
 		#)
@@ -60,6 +72,8 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(PAUSE_ACTION):
 		get_viewport().set_input_as_handled()
+		if level_complete_menu_layer != null and level_complete_menu_layer.visible:
+			return
 		_set_paused(!get_tree().paused)
 	
 func setViews(viewContainer: GridContainer, player_count: int):
@@ -87,6 +101,67 @@ func setViews(viewContainer: GridContainer, player_count: int):
 	if player_count == 3:
 		minimap_subview_container.visible = true
 		
+func _load_level(level_index: int) -> void:
+	finished_player_ids.clear()
+	level_transition_pending = false
+	_hide_level_complete_menu()
+	_hide_scoreboards()
+
+	if current_level_root != null:
+		if current_level_root != embedded_world:
+			current_level_root.queue_free()
+		current_level_root = null
+
+	if level_scenes.size() > 0:
+		if embedded_world != null:
+			embedded_world.queue_free()
+			embedded_world = null
+
+		current_level_index = wrapi(level_index, 0, level_scenes.size())
+		current_level_root = level_scenes[current_level_index].instantiate() as Node3D
+		current_level_root.name = "LoadedLevel"
+		add_child(current_level_root)
+		move_child(current_level_root, 0)
+	else:
+		current_level_index = 0
+		current_level_root = $World
+
+	_connect_level_goal(current_level_root)
+
+	for player in players:
+		player.reset_for_level()
+
+func _advance_level() -> void:
+	level_transition_pending = false
+	if level_scenes.is_empty():
+		_reset_current_level()
+	else:
+		_load_level(current_level_index + 1)
+
+func _reset_current_level() -> void:
+	finished_player_ids.clear()
+	level_transition_pending = false
+	_hide_level_complete_menu()
+	_hide_scoreboards()
+	for player in players:
+		player.reset_for_level()
+
+func _connect_level_goal(level_root: Node) -> void:
+	if level_root == null:
+		return
+
+	var goal := level_root.find_child("flagcolision", true, false) as Area3D
+	if goal == null:
+		push_warning("Loaded level does not contain an Area3D named flagcolision.")
+		return
+
+	var callback := Callable(self, "_on_flag_body_entered")
+	if !goal.is_connected("body_entered", callback):
+		goal.connect("body_entered", callback)
+
+func _hide_scoreboards() -> void:
+	for scoreboard in scoreboards:
+		scoreboard.visible = false
 	
 func _ensure_pause_input() -> void:
 	if !InputMap.has_action(PAUSE_ACTION):
@@ -155,10 +230,75 @@ func _build_pause_menu() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	buttons.add_child(quit_button)
 
+func _build_level_complete_menu() -> void:
+	level_complete_menu_layer = CanvasLayer.new()
+	level_complete_menu_layer.name = "LevelCompleteMenu"
+	level_complete_menu_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	level_complete_menu_layer.visible = false
+	add_child(level_complete_menu_layer)
+
+	var overlay := ColorRect.new()
+	overlay.color = Color(0.0, 0.0, 0.0, 0.55)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	level_complete_menu_layer.add_child(overlay)
+
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	level_complete_menu_layer.add_child(center)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(360, 0)
+	center.add_child(panel)
+
+	var buttons := VBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 12)
+	panel.add_child(buttons)
+
+	level_complete_title = Label.new()
+	level_complete_title.text = "Level Complete"
+	level_complete_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	buttons.add_child(level_complete_title)
+
+	continue_button = Button.new()
+	continue_button.text = "Continue"
+	continue_button.pressed.connect(_on_continue_pressed)
+	buttons.add_child(continue_button)
+
+	var replay_button := Button.new()
+	replay_button.text = "Replay Level"
+	replay_button.pressed.connect(_on_replay_level_pressed)
+	buttons.add_child(replay_button)
+
+	var menu_button := Button.new()
+	menu_button.text = "Main Menu"
+	menu_button.pressed.connect(_on_main_menu_pressed)
+	buttons.add_child(menu_button)
+
+	var quit_button := Button.new()
+	quit_button.text = "Quit"
+	quit_button.pressed.connect(_on_quit_pressed)
+	buttons.add_child(quit_button)
+
+func _show_level_complete_menu() -> void:
+	if level_scenes.is_empty():
+		continue_button.text = "Restart Level"
+	elif current_level_index >= level_scenes.size() - 1:
+		continue_button.text = "Replay From Level 1"
+	else:
+		continue_button.text = "Continue to Level %d" % [current_level_index + 2]
+
+	level_complete_menu_layer.visible = true
+	get_tree().paused = true
+	continue_button.grab_focus()
+
+func _hide_level_complete_menu() -> void:
+	if level_complete_menu_layer != null:
+		level_complete_menu_layer.visible = false
+
 func _build_player_scoreboards() -> void:
 	scoreboards.clear()
 	for i in range(MAX_PLAYERS):
-		var scoreboard := SCOREBOARD_SCENE.instantiate()
+		var scoreboard := SCOREBOARD_SCENE.instantiate() as Control
 		scoreboard.visible = false
 		scoreboard.name = "scoreboard%d" % [i + 1]
 		player_subviewports[i].add_child(scoreboard)
@@ -185,6 +325,7 @@ func _on_resume_pressed() -> void:
 
 func _on_main_menu_pressed() -> void:
 	_set_paused(false)
+	_hide_level_complete_menu()
 	get_tree().change_scene_to_file("res://scenes/startgui.tscn")
 
 func _on_quit_pressed() -> void:
@@ -195,11 +336,30 @@ func _on_player_score_saved(player) -> void:
 	if player_index < 0 or player_index >= scoreboards.size():
 		return
 
+	finished_player_ids[player.player_id] = true
+
 	var scoreboard := scoreboards[player_index]
 	if scoreboard.has_method("show_scores"):
 		scoreboard.show_scores()
 	else:
 		scoreboard.visible = true
+
+	if finished_player_ids.size() >= Global.player_count and !level_transition_pending:
+		level_transition_pending = true
+		_show_level_complete_menu()
+
+func _on_continue_pressed() -> void:
+	get_tree().paused = false
+	_hide_level_complete_menu()
+	_advance_level()
+
+func _on_replay_level_pressed() -> void:
+	get_tree().paused = false
+	_hide_level_complete_menu()
+	if level_scenes.is_empty():
+		_reset_current_level()
+	else:
+		_load_level(current_level_index)
 
 func _on_flag_body_entered(body: Node3D) -> void:
 	if body != null and body.has_method("show_scene"):
