@@ -281,10 +281,13 @@ func _build_level_complete_menu() -> void:
 
 func _show_level_complete_menu() -> void:
 	if level_scenes.is_empty():
+		level_complete_title.text = "Level Complete"
 		continue_button.text = "Restart Level"
 	elif current_level_index >= level_scenes.size() - 1:
-		continue_button.text = "Replay From Level 1"
+		level_complete_title.text = "Victory!"
+		continue_button.text = "Play Again"
 	else:
+		level_complete_title.text = "Level Complete"
 		continue_button.text = "Continue to Level %d" % [current_level_index + 2]
 
 	level_complete_menu_layer.visible = true
