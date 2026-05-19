@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 signal coin_collected
+signal score_saved(player)
 
 @export_subgroup("Components")
 @export var view: Node3D
@@ -23,13 +24,8 @@ var jump_single = true
 var jump_double = true
 
 var coins = 0
+var elapsed_time = 0.0
 
-#var p1saved = false
-#var p2saved = false
-#var initialsNode
-#var InitialsNode2
-var save_couht = 0
-var score_screen = false
 var initials_entry : Control
 
 @onready var particles_trail = $ParticlesTrail
@@ -45,6 +41,12 @@ func _ready():
 	var current =  get_path().get_concatenated_names()
 	if current.find("startgui") == -1:
 		call_deferred("_initialize") # we are not in the start sceen
+
+func configure_slot(slot_player_id: int, slot_initials_entry: Control) -> void:
+	player_id = slot_player_id
+	initials_entry = slot_initials_entry
+	if initials_entry != null and !initials_entry.is_connected("save_complete", _on_save_complete):
+		initials_entry.connect("save_complete", _on_save_complete)
 		
 func is_set(object)->bool:
 	if object == null:
@@ -55,11 +57,7 @@ func is_set(object)->bool:
 
 func _initialize():
 	if !is_set(initials_entry):
-		initials_entry = get_node("../GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
-		
-	if !is_set(initials_entry):
-		print("Node not found: ./GridContainer/PlayerViewportContainer%d/SubViewport/initialsentry%d" % [player_id, player_id])
-		return
+		print("Initials entry not configured for player %d" % [player_id])
 	
 func set_active(value: bool) -> void:
 	active = value
@@ -95,6 +93,8 @@ func _physics_process(_delta):
 	if !active:
 		return
 
+	elapsed_time += _delta
+
 	# Handle functions
 	handle_controls(_delta)
 	handle_gravity(_delta)
@@ -114,12 +114,6 @@ func _physics_process(_delta):
 	# Falling/respawning
 	if endgame:
 		_end_game()
-		
-	if score_screen:
-		initials_entry.hide()#.visible  = false
-		initials_entry._show_scoreboard()
-		score_screen = false
-		#_show_scoreboard()
 		
 	if position.y < -10:
 		reset_body()
@@ -222,15 +216,6 @@ func collect_coin():
 	
 	coin_collected.emit(coins)
 
-
-func _on_flagcolision_body_entered(body):
-	#don't remove nodes in signal, use bool instead
-	
-	#endgame = true
-	if active and body == self:
-		show_scene()
-	
-		
 func reset_body():
 	endgame = false
 	if spawn_position != null:
@@ -257,65 +242,18 @@ func show_scene():
 
 	initials_entry.player_id = player_id
 	initials_entry.player_coins = coins
+	initials_entry.player_time = _format_elapsed_time()
 	initials_entry.refresh()
 	
 	initials_entry.show() #.visible = true  # Show the scene
 	
 func _on_save_complete():
-	#maybe use a timer instead of saving each user?
-	save_couht += 1 
-	#if Global.player_count <= save_couht:
-	score_screen = true
+	if initials_entry != null:
+		initials_entry.hide()
+	score_saved.emit(self)
 
-
-#func _on_save1_complete():
-	#if  Global.player_count == 1:
-		#score_screen = true
-		#return
-	#if p2saved:
-		#p2saved = false
-		#p1saved = p2saved
-		#score_screen = true
-		##get_tree().change_scene_to_file("res://scoreboard.tscn")
-	#else:
-		#p1saved = true
-
-
-#func _on_save2_complete():
-	#if p1saved:
-		#p1saved = false
-		#p2saved = p1saved
-		#score_screen = true
-		##get_tree().change_scene_to_file("res://scoreboard.tscn")
-	#else:
-		#p2saved = true
-		#
-#
-#func _on_save3_complete():
-	#if p1saved:
-		#p1saved = false
-		#p2saved = p1saved
-		#score_screen = true
-		##get_tree().change_scene_to_file("res://scoreboard.tscn")
-	#else:
-		#p2saved = true
-		#
-		#
-#func _on_save4_complete():
-	#if p1saved:
-		#p1saved = false
-		#p2saved = p1saved
-		#score_screen = true
-		##get_tree().change_scene_to_file("res://scoreboard.tscn")
-	#else:
-		#p2saved = true
-		
-#func _show_scoreboard():
-	#get_tree().change_scene_to_file("res://scoreboard.tscn")
-	
-
-
-func _on_p1_flagcolision_body_entered(_body: Node3D) -> void:
-	if active and _body == self and player_id == 1:
-		show_scene()
-	pass # Replace with function body.
+func _format_elapsed_time() -> String:
+	var total_seconds := int(elapsed_time)
+	var minutes := int(total_seconds / 60)
+	var seconds := total_seconds % 60
+	return "%02d:%02d" % [minutes, seconds]

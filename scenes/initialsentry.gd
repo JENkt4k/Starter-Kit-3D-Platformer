@@ -5,7 +5,6 @@ extends Control
 @warning_ignore("unused_signal")
 signal save_complete
 
-@export var scoreboard: Control
 @export var player_stats: Label
 @export var player_initials: String = "PLA"
 @export var player_id: int = 0
@@ -40,7 +39,7 @@ func _ready():
 	
 func _add_highscore():
 	if high_scores:
-		var key = "%s_%d,%d,%d" % [player_initials,player_id,player_coins,player_coins]
+		var key = "%s_%d,%s,%d" % [player_initials, player_id, player_time, player_coins]
 		high_scores.scores[key] = player_coins
 		high_scores.save()
 	
@@ -80,17 +79,8 @@ func refresh():
 func _process(_delta):
 	pass
 
-func _show_scoreboard():
-	scoreboard.visible = true
-	#get_tree().change_scene_to_file("res://scoreboard.tscn")
-
 func _on_save_pressed():
-	player_initials = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text
-	if high_scores:
-		var key = "%s_%d,%d,%d" % [player_initials,player_id,player_coins,player_coins]
-		high_scores.scores[key] = player_coins
-		high_scores.save()
-		emit_signal("save_complete")
+	_save_score()
 	
 	pass # Replace with function body.
 
@@ -118,10 +108,13 @@ func _on_initials_input_focus_exited() -> void:
 
 
 func _on_keyboard_screen_saved() -> void:
+	_save_score()
+	pass # Replace with function body.
+
+func _save_score() -> void:
 	player_initials = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text
 	if high_scores:
-		var key = "%s_%d,%d,%d" % [player_initials,player_id,player_coins,player_coins]
+		var key = "%s_%d,%s,%d" % [player_initials, player_id, player_time, player_coins]
 		high_scores.scores[key] = player_coins
 		high_scores.save()
 		emit_signal("save_complete")
-	pass # Replace with function body.

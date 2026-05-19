@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bqqgyqafm7xwp"]
+[gd_scene load_steps=22 format=3 uid="uid://bqqgyqafm7xwp"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_4dej5"]
 [ext_resource type="Environment" uid="uid://bqnqgflivjvue" path="res://scenes/main-environment.tres" id="1_ahusb"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" path="res://scripts/hud.gd" id="11_apvpm"]
 [ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="13_drtpy"]
 [ext_resource type="Texture2D" uid="uid://cd7oyc56ehkx1" path="res://sprites/coin.png" id="13_jfda3"]
-[ext_resource type="PackedScene" uid="uid://dm50h2jgg80ae" path="res://scoreboard.tscn" id="16_b3edp"]
 [ext_resource type="PackedScene" uid="uid://drfm7u2n3wjp2" path="res://scenes/initialsentry.tscn" id="16_xrl3q"]
 [ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="17_tk810"]
 
@@ -206,11 +205,7 @@ handle_input_locally = false
 size = Vector2i(1280, 800)
 render_target_update_mode = 4
 
-[node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
-visible = false
-scoreboard = NodePath("../scoreboard1")
-
-[node name="scoreboard1" parent="GridContainer/PlayerViewportContainer1/SubViewport" instance=ExtResource("16_b3edp")]
+[node name="initialsentry1" parent="GridContainer/PlayerViewportContainer1/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
 [node name="HUD" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer1/SubViewport"]
@@ -262,11 +257,7 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer2/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
-visible = false
-scoreboard = NodePath("../scoreboard2")
-
-[node name="scoreboard2" parent="GridContainer/PlayerViewportContainer2/SubViewport" instance=ExtResource("16_b3edp")]
+[node name="initialsentry2" parent="GridContainer/PlayerViewportContainer2/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
 [node name="HUD2" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer2/SubViewport"]
@@ -318,11 +309,7 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry3" parent="GridContainer/PlayerViewportContainer3/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
-visible = false
-scoreboard = NodePath("../scoreboard3")
-
-[node name="scoreboard3" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_b3edp")]
+[node name="initialsentry3" parent="GridContainer/PlayerViewportContainer3/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
 [node name="HUD3" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer3/SubViewport"]
@@ -374,11 +361,7 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 0
 
-[node name="initialsentry4" parent="GridContainer/PlayerViewportContainer4/SubViewport" node_paths=PackedStringArray("scoreboard") instance=ExtResource("16_xrl3q")]
-visible = false
-scoreboard = NodePath("../scoreboard4")
-
-[node name="scoreboard4" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_b3edp")]
+[node name="initialsentry4" parent="GridContainer/PlayerViewportContainer4/SubViewport" instance=ExtResource("16_xrl3q")]
 visible = false
 
 [node name="HUD4" type="CanvasLayer" parent="GridContainer/PlayerViewportContainer4/SubViewport"]
@@ -435,13 +418,10 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -6.891
 current = true
 fov = 40.0
 
-[connection signal="coin_collected" from="Player" to="GridContainer/PlayerViewportContainer1/SubViewport/HUD" method="_on_coin_collected"]
-[connection signal="coin_collected" from="Player2" to="GridContainer/PlayerViewportContainer2/SubViewport/HUD2" method="_on_player_2_coin_collected"]
-[connection signal="coin_collected" from="Player3" to="GridContainer/PlayerViewportContainer3/SubViewport/HUD3" method="_on_player_3_coin_collected"]
-[connection signal="coin_collected" from="Player4" to="GridContainer/PlayerViewportContainer4/SubViewport/HUD4" method="_on_player_4_coin_collected"]
-[connection signal="body_entered" from="World/flag2/flagcolision" to="Player" method="_on_p1_flagcolision_body_entered"]
-[connection signal="body_entered" from="World/flag2/flagcolision" to="Player2" method="_on_flagcolision_body_entered"]
-[connection signal="body_entered" from="World/flag2/flagcolision" to="Player3" method="_on_flagcolision_body_entered"]
-[connection signal="body_entered" from="World/flag2/flagcolision" to="Player4" method="_on_flagcolision_body_entered"]
+[connection signal="coin_collected" from="Player" to="GridContainer/PlayerViewportContainer1/SubViewport/HUD" method="set_coins"]
+[connection signal="coin_collected" from="Player2" to="GridContainer/PlayerViewportContainer2/SubViewport/HUD2" method="set_coins"]
+[connection signal="coin_collected" from="Player3" to="GridContainer/PlayerViewportContainer3/SubViewport/HUD3" method="set_coins"]
+[connection signal="coin_collected" from="Player4" to="GridContainer/PlayerViewportContainer4/SubViewport/HUD4" method="set_coins"]
+[connection signal="body_entered" from="World/flag2/flagcolision" to="." method="_on_flag_body_entered"]
 [connection signal="gui_focus_changed" from="GridContainer/PlayerViewportContainer1/SubViewport" to="." method="_on_sub_viewport_gui_focus_changed"]
 [connection signal="visibility_changed" from="GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1" to="." method="_on_initialsentry_1_visibility_changed"]

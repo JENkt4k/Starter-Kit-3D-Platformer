@@ -2,6 +2,7 @@ extends Node3D
 
 const MAX_PLAYERS := 4
 const PAUSE_ACTION := "pause_menu"
+const SCOREBOARD_SCENE := preload("res://scoreboard.tscn")
 
 # Reference to the GridContainer in your main scene
 @onready var view_container = $GridContainer
@@ -11,6 +12,18 @@ const PAUSE_ACTION := "pause_menu"
 @onready var player4_subview_container = $GridContainer/PlayerViewportContainer4
 @onready var minimap_subview_container = $GridContainer/MiniViewportContainer 
 @onready var players = [$Player, $Player2, $Player3, $Player4]
+@onready var player_views = [
+	$GridContainer/PlayerViewportContainer1/SubViewport/View,
+	$GridContainer/PlayerViewportContainer2/SubViewport/View2,
+	$GridContainer/PlayerViewportContainer3/SubViewport/View3,
+	$GridContainer/PlayerViewportContainer4/SubViewport/View4,
+]
+@onready var initials_entries = [
+	$GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1,
+	$GridContainer/PlayerViewportContainer2/SubViewport/initialsentry2,
+	$GridContainer/PlayerViewportContainer3/SubViewport/initialsentry3,
+	$GridContainer/PlayerViewportContainer4/SubViewport/initialsentry4,
+]
 #@onready var player_1_iniital_entry = $GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1
 @onready var player_1_iniital_entry_screen : Button = $GridContainer/PlayerViewportContainer1/SubViewport/initialsentry1/ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen/ButtonColumnVBox/ButtonRowHBox_1/Button_A
 #$ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen/ButtonColumnVBox/ButtonRowHBox_1/Button_A
@@ -18,12 +31,15 @@ const PAUSE_ACTION := "pause_menu"
 
 var pause_menu_layer: CanvasLayer
 var resume_button: Button
+var shared_scoreboard: Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ensure_pause_input()
 	_build_pause_menu()
+	_build_shared_scoreboard()
+	_configure_player_slots()
 	setViews(view_container, Global.player_count)
 	#player_1_iniital_entry.visibility_changed.connect(func(): 
 		#self._on_initialsentry_visibility_changed(1)
@@ -58,6 +74,7 @@ func setViews(viewContainer: GridContainer, player_count: int):
 
 	for i in range(MAX_PLAYERS):
 		players[i].set_active(i < player_count)
+		player_views[i].set_active(i < player_count)
 
 	# Optional: Add a mini-map or score display for 3 players
 	minimap_subview_container.visible = false
@@ -132,6 +149,24 @@ func _build_pause_menu() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	buttons.add_child(quit_button)
 
+func _build_shared_scoreboard() -> void:
+	var scoreboard_layer := CanvasLayer.new()
+	scoreboard_layer.name = "SharedScoreboard"
+	add_child(scoreboard_layer)
+
+	shared_scoreboard = SCOREBOARD_SCENE.instantiate()
+	shared_scoreboard.visible = false
+	scoreboard_layer.add_child(shared_scoreboard)
+
+func _configure_player_slots() -> void:
+	for i in range(MAX_PLAYERS):
+		var player_id := i + 1
+		players[i].configure_slot(player_id, initials_entries[i])
+		player_views[i].set_player_id(player_id)
+
+		if !players[i].is_connected("score_saved", _on_player_score_saved):
+			players[i].connect("score_saved", _on_player_score_saved)
+
 func _set_paused(paused: bool) -> void:
 	get_tree().paused = paused
 	pause_menu_layer.visible = paused
@@ -147,6 +182,16 @@ func _on_main_menu_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+func _on_player_score_saved(_player) -> void:
+	if shared_scoreboard.has_method("show_scores"):
+		shared_scoreboard.show_scores()
+	else:
+		shared_scoreboard.visible = true
+
+func _on_flag_body_entered(body: Node3D) -> void:
+	if body != null and body.has_method("show_scene"):
+		body.show_scene()
 
 
 

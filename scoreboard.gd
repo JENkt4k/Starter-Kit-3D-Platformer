@@ -10,6 +10,12 @@ func _ready():
 func start_timer(init: int = 0):
 	return init
 
+func show_scores() -> void:
+	visible = true
+	$gameovergui.visible = false
+	$CountdownTimer.stop()
+	$Border/ScrollContainer/Scores.display_high_scores()
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if self.visible == true and !$gameovergui.visible:

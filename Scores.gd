@@ -39,6 +39,11 @@ func dictionary_value_comparator(a, b) -> bool:
 	return high_scores.scores[a] > high_scores.scores[b]
 
 func display_high_scores():
+	clear()
+	add_item("Initials")
+	add_item("Time")
+	add_item("Coins")
+
 	var sorted_players = sort_high_scores()
 	#var list_container = $ListContainer  # Assume you have a VBoxContainer or similar node to hold the list items
 #
