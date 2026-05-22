@@ -10,10 +10,12 @@ signal save_complete
 @export var player_id: int = 0
 @export var player_coins: int = 0
 @export var player_time: String = "00:00"
+@export var max_initials_length := 8
 
 @onready var keyboard_screen_a : Control = $ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen/ButtonColumnVBox/ButtonRowHBox_1/Button_A
 #keyboard_screen_ ButtonColumnVBox/ButtonRowHBox_1/Button_A @onready var keyboard_screen : Control = $ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen
 @onready var line :TextEdit = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input
+@onready var keyboard_screen : Control = $ScoreMargin/MarginContainer2/VBoxContainer/KeyboardScreen
 
 var high_scores: SaveData = Global.scores
 
@@ -44,6 +46,9 @@ func _add_highscore():
 		high_scores.save()
 	
 func refresh():
+	line.text = player_initials
+	if keyboard_screen.has_method("set_text"):
+		keyboard_screen.set_text(player_initials)
 	player_stats.text = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]
 	#line.grab_focus()
 	keyboard_screen_a.focus_mode = FOCUS_ALL  #.set_focus_mode()
@@ -112,9 +117,19 @@ func _on_keyboard_screen_saved() -> void:
 	pass # Replace with function body.
 
 func _save_score() -> void:
-	player_initials = $ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text
+	save_current_score($ScoreMargin/MarginContainer2/VBoxContainer/EntryLine/initials_input.text)
+
+func save_current_score(initials: String) -> void:
+	player_initials = _sanitize_initials(initials)
+	line.text = player_initials
 	if high_scores:
 		var key = "%s_%d,%s,%d" % [player_initials, player_id, player_time, player_coins]
 		high_scores.scores[key] = player_coins
 		high_scores.save()
-		emit_signal("save_complete")
+	emit_signal("save_complete")
+
+func _sanitize_initials(value: String) -> String:
+	var cleaned := value.strip_edges().replace("\n", "").replace("\r", "").replace(",", "")
+	if cleaned.is_empty():
+		cleaned = "P%d" % [player_id]
+	return cleaned.left(max_initials_length)

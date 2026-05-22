@@ -22,6 +22,10 @@ func focus_button():
 		if button is Button:
 			button.grab_focus()
 
+func set_text(value: String) -> void:
+	var display_line := $ButtonColumnVBox/DisplayLineEdit as LineEdit
+	display_line.text = value
+	display_line.caret_column = display_line.text.length()
 
 func _on_button_row_h_box_1_visibility_changed() -> void:
 	focus_button()

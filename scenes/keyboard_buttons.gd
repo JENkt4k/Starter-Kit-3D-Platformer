@@ -19,5 +19,5 @@ func _process(_delta: float) -> void:
 
 
 func _on_button_pressed(keyValue):
-	$"../DisplayLineEdit".text += keyValue
-	pass
+	var display_line := $"../DisplayLineEdit" as LineEdit
+	display_line.insert_text_at_caret(keyValue.strip_edges())

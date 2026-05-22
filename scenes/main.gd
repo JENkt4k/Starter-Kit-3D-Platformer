@@ -128,6 +128,11 @@ func _load_level(level_index: int) -> void:
 		current_level_index = 0
 		current_level_root = $World
 
+	if current_level_index == 0:
+		_start_campaign_identity_prompt()
+	else:
+		_use_saved_campaign_identities()
+
 	_connect_level_goal(current_level_root)
 
 	for player in players:
@@ -148,8 +153,20 @@ func _reset_current_level() -> void:
 	level_transition_pending = false
 	_hide_level_complete_menu()
 	_hide_scoreboards()
+	if current_level_index == 0:
+		_start_campaign_identity_prompt()
 	for player in players:
 		player.reset_for_level()
+
+func _start_campaign_identity_prompt() -> void:
+	campaign_results_by_level.clear()
+	for player in players:
+		if player.has_method("reset_campaign_identity"):
+			player.reset_campaign_identity()
+
+func _use_saved_campaign_identities() -> void:
+	for player in players:
+		player.require_initials_prompt = false
 
 func _connect_level_goal(level_root: Node) -> void:
 	if level_root == null:

@@ -17,6 +17,4 @@ func _process(_delta: float) -> void:
 	pass
 	
 func _on_button_pressed(keyValue):
-	# check for speccial characters/Keys
-	displayLineEdit.text += keyValue
-	pass
+	displayLineEdit.insert_text_at_caret(keyValue)

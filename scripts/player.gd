@@ -9,7 +9,7 @@ signal score_saved(player)
 @export_subgroup("Properties")
 @export var movement_speed = 250
 @export var jump_strength = 7
-@export var player_initials = "AAA"
+@export var player_initials: String = "AAA"
 @export var player_id = 1
 @export var spawn_position : Node3D 
 @export var active = true
@@ -26,6 +26,8 @@ var jump_double = true
 var coins = 0
 var elapsed_time = 0.0
 var finished = false
+var has_saved_initials = false
+var require_initials_prompt = true
 
 var initials_entry : Control
 
@@ -88,6 +90,11 @@ func reset_for_level() -> void:
 	if initials_entry != null:
 		initials_entry.hide()
 	reset_body()
+
+func reset_campaign_identity() -> void:
+	has_saved_initials = false
+	require_initials_prompt = true
+	player_initials = ""
 	
 	
 func apply_velocity(_delta):
@@ -256,14 +263,21 @@ func show_scene():
 		initials_entry.connect("save_complete", _on_save_complete )
 
 	initials_entry.player_id = player_id
+	initials_entry.player_initials = player_initials
 	initials_entry.player_coins = coins
 	initials_entry.player_time = _format_elapsed_time()
 	initials_entry.refresh()
-	
+
+	if has_saved_initials and !require_initials_prompt and initials_entry.has_method("save_current_score"):
+		initials_entry.save_current_score(player_initials)
+		return
+
 	initials_entry.show() #.visible = true  # Show the scene
 	
 func _on_save_complete():
 	if initials_entry != null:
+		player_initials = initials_entry.player_initials
+		has_saved_initials = true
 		initials_entry.hide()
 	score_saved.emit(self)
 

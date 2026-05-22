@@ -187,7 +187,7 @@ transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
 visible = false
 
 [node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot1" unique_id=521664178]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 4.35, 0)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 5.0582166, 0)
 pixel_size = 0.012
 text = "AAA
 0 coins
@@ -230,7 +230,7 @@ transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
 visible = false
 
 [node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot2" unique_id=668482316]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.85, 0)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 4.5582166, 0)
 pixel_size = 0.012
 text = "AAA
 0 coins
@@ -273,7 +273,7 @@ transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
 visible = false
 
 [node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3" unique_id=452110891]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.5, 0)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 4.2082167, 0)
 pixel_size = 0.012
 text = "AAA
 0 coins
@@ -316,7 +316,7 @@ transform = Transform3D(1.35, 0, 0, 0, 1.35, 0, 0, 0, 1.35, 0, 0, 0)
 visible = false
 
 [node name="NameLabel" type="Label3D" parent="Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4" unique_id=775771294]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.25, 0)
+transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 3.9582167, 0)
 pixel_size = 0.012
 text = "AAA
 0 coins

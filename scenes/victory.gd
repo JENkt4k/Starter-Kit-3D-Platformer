@@ -6,6 +6,7 @@ extends Control
 	$Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot3,
 	$Viewport/SubViewport/VictoryWorld/PodiumSlots/Slot4,
 ]
+@onready var confetti_nodes := [$Confetti1, $Confetti2, $Confetti3, $Confetti4, $Confetti5]
 @onready var play_again_button: Button = $Overlay/Margin/Layout/Actions/PlayAgain
 @onready var main_menu_button: Button = $Overlay/Margin/Layout/Actions/MainMenu
 @onready var quit_button: Button = $Overlay/Margin/Layout/Actions/Quit
@@ -15,8 +16,20 @@ func _ready() -> void:
 	play_again_button.pressed.connect(_on_play_again_pressed)
 	main_menu_button.pressed.connect(_on_main_menu_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	_position_confetti()
 	_populate_podium()
 	play_again_button.grab_focus()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED and is_node_ready():
+		_position_confetti()
+
+func _position_confetti() -> void:
+	var size := get_viewport_rect().size
+	var x_positions := [0.14, 0.31, 0.5, 0.69, 0.86]
+	for i in range(confetti_nodes.size()):
+		var confetti := confetti_nodes[i] as Node2D
+		confetti.position = Vector2(size.x * x_positions[i], size.y * 0.13)
 
 func _populate_podium() -> void:
 	var results := _get_podium_results()
@@ -37,8 +50,9 @@ func _set_slot_labels(slot: Node3D, result: Dictionary, rank: int) -> void:
 	rank_label.text = "%d" % [rank]
 
 	var name_label := slot.get_node("NameLabel") as Label3D
+	var initials: String = str(result["initials"]).left(8)
 	name_label.text = "%s\n%d coins\n%s" % [
-		str(result["initials"]),
+		initials,
 		int(result["coins"]),
 		_format_time(float(result["time"])),
 	]
