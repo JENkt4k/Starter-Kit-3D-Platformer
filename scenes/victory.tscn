@@ -96,7 +96,7 @@ render_target_update_mode = 4
 environment = SubResource("Environment_victory")
 
 [node name="Camera3D" type="Camera3D" parent="Viewport/SubViewport/VictoryWorld" unique_id=333836990]
-transform = Transform3D(1, 0, 0, 0, 0.927184, 0.374607, 0, -0.374607, 0.927184, 0, 4.8, 8.5)
+transform = Transform3D(1, 0, 0, 0, 0.92718375, 0.3746069, 0, -0.3746069, 0.92718375, 0, 7.47671, 10.501588)
 current = true
 fov = 48.0
 
