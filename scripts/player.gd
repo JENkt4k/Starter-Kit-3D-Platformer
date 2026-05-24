@@ -110,6 +110,15 @@ func _physics_process(_delta):
 	if !active:
 		return
 
+	if finished:
+		movement_velocity = Vector3.ZERO
+		velocity = Vector3.ZERO
+		gravity = 0
+		particles_trail.emitting = false
+		sound_footsteps.stream_paused = true
+		animation.play("idle", 0)
+		return
+
 	elapsed_time += _delta
 
 	# Handle functions

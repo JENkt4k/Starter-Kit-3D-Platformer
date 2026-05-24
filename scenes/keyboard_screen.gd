@@ -19,8 +19,13 @@ var selected_row := 0
 var selected_column := 0
 var repeat_delay := 0.16
 var move_repeat_timer := 0.0
+var selected_button_style := StyleBoxFlat.new()
 
 func _ready() -> void:
+	selected_button_style.bg_color = Color(1.0, 0.92, 0.18, 1.0)
+	selected_button_style.border_color = Color(0.02, 0.02, 0.02, 1.0)
+	selected_button_style.set_border_width_all(3)
+	selected_button_style.set_corner_radius_all(4)
 	_disable_button_focus()
 	_update_selection()
 
@@ -86,8 +91,24 @@ func _update_selection() -> void:
 		for column_index in range(row.get_child_count()):
 			var button := row.get_child(column_index) as Button
 			var selected := row_index == selected_row and column_index == selected_column
-			button.modulate = Color(1.0, 0.86, 0.34, 1.0) if selected else Color.WHITE
-			button.scale = Vector2(1.04, 1.04) if selected else Vector2.ONE
+			if selected:
+				button.add_theme_stylebox_override("normal", selected_button_style)
+				button.add_theme_stylebox_override("hover", selected_button_style)
+				button.add_theme_stylebox_override("pressed", selected_button_style)
+				button.add_theme_color_override("font_color", Color.BLACK)
+				button.add_theme_color_override("font_hover_color", Color.BLACK)
+				button.add_theme_color_override("font_pressed_color", Color.BLACK)
+				button.add_theme_color_override("font_focus_color", Color.BLACK)
+				button.scale = Vector2(1.05, 1.05)
+			else:
+				button.remove_theme_stylebox_override("normal")
+				button.remove_theme_stylebox_override("hover")
+				button.remove_theme_stylebox_override("pressed")
+				button.remove_theme_color_override("font_color")
+				button.remove_theme_color_override("font_hover_color")
+				button.remove_theme_color_override("font_pressed_color")
+				button.remove_theme_color_override("font_focus_color")
+				button.scale = Vector2.ONE
 
 func _activate_selected_key() -> void:
 	var key := _selected_button().name.split("_")[1]
