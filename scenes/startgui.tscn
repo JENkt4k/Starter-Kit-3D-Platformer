@@ -233,41 +233,41 @@ transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, -5.65, -1.55, -2.55)
 transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, 5.25, -1.25, -2.7)
 
 [node name="CenterPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1299277955 instance=ExtResource("17_grass_hex")]
-transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, 0.4, -1.85, 0.2)
+transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, 0.82152426, -1.2065278, -1.6943521)
 
 [node name="LeftTinyPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=804475026 instance=ExtResource("15_grass_low")]
-transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, -2.85, -1.45, -1.0)
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, -2.85, -1.45, -1)
 
 [node name="MenuAccentPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1409721097 instance=ExtResource("14_grass_slope")]
 transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, -3.85, -2.15, 1.95)
 
 [node name="PodiumGround" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1330555081 instance=ExtResource("16_grass_long")]
-transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, 4.2, -2.35, 2.1)
+transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, 0.49911046, -2.35, 2.1)
 
 [node name="TreePine" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1793366948 instance=ExtResource("19_tree_pine")]
-transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, -5.6, -0.7, -2.0)
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, -5.6, -0.7, -2)
 
 [node name="Rocks" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=284780982 instance=ExtResource("20_rocks")]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.690153, -0.42660666, 0.65)
+transform = Transform3D(0.79999965, -0.0007213183, 0.00025287163, 0.0007212297, 0.79999965, 0.00026767288, -0.0002531242, -0.00026743402, 0.7999999, 1.3816459, -0.30668783, -1.9805098)
 
 [node name="Flowers" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=541360890 instance=ExtResource("21_flowers")]
-transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -0.8, 0.31055665, 0.9)
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 0.17682856, -0.29204822, -1.7305098)
 
 [node name="Trampoline" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1321571878]
-transform = Transform3D(0.99680173, 0, 0.07991469, 0, 1, 0, -0.07991469, 0, 0.99680173, -2.6, -2.0, 1.85)
+transform = Transform3D(0.99680173, 0, 0.07991469, 0, 1, 0, -0.07991469, 0, 0.99680173, -2.6, -2, 1.85)
 
 [node name="Ring" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=584825226]
-transform = Transform3D(0.99999964, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0, 0.99999964, 0, 0, 0)
+transform = Transform3D(0.9999995, 0, -3.7252903e-08, 0, 1, 0, 3.7252903e-08, 0, 0.9999995, -4.219032, 0, -0.33824432)
 mesh = SubResource("BoxMesh_trampoline_ring")
 surface_material_override/0 = SubResource("Material_trampoline_blue")
 
 [node name="Pad" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=459775708]
-transform = Transform3D(0.99999964, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0, 0.99999964, 0, 0.17, 0)
+transform = Transform3D(0.9999995, 0, -3.7252903e-08, 0, 1, 0, 3.7252903e-08, 0, 0.9999995, -4.219032, 0.16999996, -0.33824432)
 mesh = SubResource("BoxMesh_trampoline_pad")
 surface_material_override/0 = SubResource("Material_trampoline_gold")
 
 [node name="Spring" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=684558383 instance=ExtResource("22_spring")]
-transform = Transform3D(0.8499997, 0, -3.7252903e-08, 0, 0.85, 0, 3.7252903e-08, 0, 0.8499997, 0, 0.34, 0)
+transform = Transform3D(0.8499996, 0, -4.4703484e-08, 0, 0.85, 0, 4.4703484e-08, 0, 0.8499996, -4.219032, 0.34000003, -0.33824432)
 
 [node name="PodiumIsland" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2056438997]
 transform = Transform3D(0.99820054, 0, -0.059964005, 0, 1, 0, 0.059964005, 0, 0.99820054, 4.45, -1.65, 1.25)
@@ -295,37 +295,37 @@ surface_material_override/0 = SubResource("Material_block_red")
 [node name="Players" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1501766226]
 
 [node name="Player1" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1505596909 instance=ExtResource("2_player1")]
-transform = Transform3D(1.3906673, 0, -0.4150066, 0, 1.45, 0, 0.4150066, 0, 1.3906673, 0.75, 0.4, 0.65)
+transform = Transform3D(1.7533495, 0, 0.73205894, -0.09604687, 1.8835757, 0.23004124, -0.72573084, -0.2492819, 1.7381932, 0.45, 0.82, 2.2521374)
 active = false
 
 [node name="Player2" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1338693320 instance=ExtResource("3_player2")]
-transform = Transform3D(0.83342505, 0.00069288496, -0.3397089, -0.044657774, 0.8924111, -0.10774098, 0.33676147, 0.11662742, 0.82643193, 2.85, 2.35, -0.35)
+transform = Transform3D(0.8274902, 0.0045537623, 0.3538912, -0.0006856974, 0.8999443, -0.009976797, -0.3539196, 0.008903354, 0.8274427, 5.0465574, 0.83540833, -2.1162813)
 active = false
 
 [node name="Player3" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1214142072 instance=ExtResource("4_player3")]
-transform = Transform3D(0.9017941, -0.05555911, -0.17343752, 0.045898095, 0.91719687, -0.055166885, 0.17624064, 0.045422524, 0.90181816, 4.4, 0.25, 0.3)
+transform = Transform3D(0.9017941, -0.05555911, -0.17343752, 0.045898095, 0.91719687, -0.055166885, 0.17624064, 0.045422524, 0.90181816, 4.4, -0.70222545, 1.1675637)
 active = false
 
 [node name="Player4" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1222029318 instance=ExtResource("5_player4")]
-transform = Transform3D(0.70540744, -0.021581825, -0.33216634, 0.03118544, 0.7792202, 0.015598959, 0.33140263, -0.027387662, 0.70556515, -1.75, 0.0, 0.7)
+transform = Transform3D(0.70540744, -0.021581825, -0.33216634, 0.03118544, 0.7792202, 0.015598959, 0.33140263, -0.027387662, 0.70556515, -2.574704, -0.58913827, -0.65219194)
 active = false
 
 [node name="Coins" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2087567498]
 
 [node name="Coin1" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=680817890 instance=ExtResource("9_coin")]
-transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -0.2, 2.65, -0.5)
+transform = Transform3D(1.7746207, 0, 0, 0, 2.835876, 0, 0, 0, 3.1504252, 1.6846602, 1.4728158, 3.222049)
 
 [node name="Coin2" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1028005746 instance=ExtResource("9_coin")]
-transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 4.05, 1.95, -0.7)
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 4.6364813, 0.45652115, -3.5853283)
 
 [node name="Coin3" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=876938969 instance=ExtResource("9_coin")]
 transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 5.65, 0.62, -1.15)
 
 [node name="Coin4" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1561409329 instance=ExtResource("9_coin")]
-transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, 1.7, -0.35, 1.25)
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, 1.1947868, -0.87466407, 1.9688543)
 
 [node name="Coin5" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1263963030 instance=ExtResource("9_coin")]
-transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -3.7, 1.2, -0.9)
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -4.8086996, -0.7014382, -1.8858496)
 
 [node name="Clouds" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1928453999]
 
