@@ -112,10 +112,10 @@ func _physics_process(_delta):
 
 	if finished:
 		movement_velocity = Vector3.ZERO
-		velocity = Vector3.ZERO
-		gravity = 0
 		particles_trail.emitting = false
 		sound_footsteps.stream_paused = true
+		handle_gravity(_delta)
+		apply_velocity(_delta)
 		animation.play("idle", 0)
 		return
 
