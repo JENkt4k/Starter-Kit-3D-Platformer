@@ -43,6 +43,7 @@ var resume_button: Button
 var level_complete_menu_layer: CanvasLayer
 var continue_button: Button
 var level_complete_title: Label
+var finish_notices: Array[Control] = []
 var scoreboards: Array[Control] = []
 var current_level_index := 0
 var finished_player_ids := {}
@@ -60,6 +61,7 @@ func _ready() -> void:
 	_ensure_pause_input()
 	_build_pause_menu()
 	_build_level_complete_menu()
+	_build_finish_notices()
 	_build_player_scoreboards()
 	_configure_player_slots()
 	setViews(view_container, Global.player_count)
@@ -113,6 +115,7 @@ func _load_level(level_index: int) -> void:
 	active_initials_player = null
 	level_transition_pending = false
 	_hide_level_complete_menu()
+	_hide_finish_notices()
 	_hide_scoreboards()
 
 	if current_level_root != null:
@@ -161,6 +164,7 @@ func _reset_current_level() -> void:
 	active_initials_player = null
 	level_transition_pending = false
 	_hide_level_complete_menu()
+	_hide_finish_notices()
 	_hide_scoreboards()
 	if current_level_index == 0:
 		_start_campaign_identity_prompt()
@@ -193,6 +197,49 @@ func _connect_level_goal(level_root: Node) -> void:
 func _hide_scoreboards() -> void:
 	for scoreboard in scoreboards:
 		scoreboard.visible = false
+
+func _build_finish_notices() -> void:
+	finish_notices.clear()
+	for i in range(MAX_PLAYERS):
+		var notice := PanelContainer.new()
+		notice.name = "FinishNotice%d" % [i + 1]
+		notice.visible = false
+		notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		notice.set_anchors_preset(Control.PRESET_TOP_WIDE)
+		notice.offset_left = 24
+		notice.offset_top = 24
+		notice.offset_right = -24
+		notice.offset_bottom = 108
+
+		var label := Label.new()
+		label.name = "Label"
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		label.text = "Finished\nWaiting for name entry"
+		notice.add_child(label)
+
+		player_subviewports[i].add_child(notice)
+		finish_notices.append(notice)
+
+func _show_finish_notice(player, message: String) -> void:
+	var player_index: int = player.player_id - 1
+	if player_index < 0 or player_index >= finish_notices.size():
+		return
+
+	var notice := finish_notices[player_index]
+	var label := notice.get_node("Label") as Label
+	label.text = message
+	notice.visible = true
+
+func _hide_finish_notice(player) -> void:
+	var player_index: int = player.player_id - 1
+	if player_index >= 0 and player_index < finish_notices.size():
+		finish_notices[player_index].visible = false
+
+func _hide_finish_notices() -> void:
+	for notice in finish_notices:
+		notice.visible = false
 	
 func _ensure_pause_input() -> void:
 	if !InputMap.has_action(PAUSE_ACTION):
@@ -416,6 +463,11 @@ func _queue_finish_prompt(player) -> void:
 
 	queued_finish_player_ids[player.player_id] = true
 	finish_queue.append(player)
+	if active_initials_player != null:
+		_show_finish_notice(
+			player,
+			"Finished!\nWaiting for Player %d to save" % [active_initials_player.player_id]
+		)
 	_process_next_finish_prompt()
 
 func _process_next_finish_prompt() -> void:
@@ -429,6 +481,7 @@ func _process_next_finish_prompt() -> void:
 			continue
 
 		active_initials_player = player
+		_hide_finish_notice(player)
 		player.show_scene()
 		return
 
