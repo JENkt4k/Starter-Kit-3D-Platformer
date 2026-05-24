@@ -13,6 +13,7 @@ signal score_saved(player)
 @export var player_id = 1
 @export var spawn_position : Node3D 
 @export var active = true
+@export var display_jump_pose_time := 0.2
 
 var movement_velocity: Vector3
 var rotation_direction: float
@@ -58,6 +59,13 @@ func _set_inactive_display_mode() -> void:
 		$Collider.disabled = true
 	particles_trail.emitting = false
 	sound_footsteps.stream_paused = true
+	_pose_display_jump()
+
+func _pose_display_jump() -> void:
+	if animation.has_animation("jump"):
+		animation.play("jump")
+		animation.seek(display_jump_pose_time, true)
+		animation.pause()
 
 func configure_slot(slot_player_id: int, slot_initials_entry: Control) -> void:
 	player_id = slot_player_id
