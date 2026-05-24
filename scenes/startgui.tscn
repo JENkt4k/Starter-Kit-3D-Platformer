@@ -1,50 +1,546 @@
-[gd_scene load_steps=6 format=3 uid="uid://cp0uctjbj0h87"]
+[gd_scene format=3 uid="uid://cp0uctjbj0h87"]
 
-[ext_resource type="Script" path="res://scenes/StartGameButton.gd" id="1_6mhf8"]
-[ext_resource type="Script" path="res://scenes/startgui.gd" id="1_edasy"]
-[ext_resource type="PackedScene" uid="uid://dbc0sc4s17erd" path="res://scenes/gamebackground_3d.tscn" id="1_xuere"]
-[ext_resource type="Script" path="res://scenes/SystemCheck.gd" id="4_yad0u"]
-[ext_resource type="Texture2D" uid="uid://gka7li4uclwm" path="res://sprites/running_steamdeck.svg" id="5_vinl1"]
+[ext_resource type="Script" uid="uid://bj1rythw31lvm" path="res://scenes/startgui.gd" id="1_start"]
+[ext_resource type="PackedScene" uid="uid://dl2ed4gkybggf" path="res://objects/player.tscn" id="2_player1"]
+[ext_resource type="PackedScene" uid="uid://dbb5xpyaqtabg" path="res://objects/player2.tscn" id="3_player2"]
+[ext_resource type="PackedScene" uid="uid://cvi3hcfcx2i4y" path="res://objects/player3.tscn" id="4_player3"]
+[ext_resource type="PackedScene" uid="uid://cxdv7j65grgtw" path="res://objects/player4.tscn" id="5_player4"]
+[ext_resource type="PackedScene" uid="uid://dfpisimsgf5ce" path="res://objects/coin.tscn" id="9_coin"]
+[ext_resource type="PackedScene" uid="uid://dy017k58p20sk" path="res://objects/cloud.tscn" id="10_cloud"]
+[ext_resource type="FontFile" uid="uid://d0cxd77jybrcn" path="res://fonts/lilita_one_regular.ttf" id="11_font"]
+[ext_resource type="PackedScene" uid="uid://cg64pdq1465rf" path="res://models/kenney_platformer/block-grass-overhang-large.glb" id="13_grass_overhang"]
+[ext_resource type="PackedScene" uid="uid://bcjy4pv4c58k2" path="res://models/kenney_platformer/block-grass-large-slope.glb" id="14_grass_slope"]
+[ext_resource type="PackedScene" uid="uid://cmddx2hb5f1r3" path="res://models/kenney_platformer/block-grass-low-large.glb" id="15_grass_low"]
+[ext_resource type="PackedScene" uid="uid://dq0hqjyf5f6nj" path="res://models/kenney_platformer/block-grass-long.glb" id="16_grass_long"]
+[ext_resource type="PackedScene" uid="uid://b6ov11m32h4b4" path="res://models/kenney_platformer/block-grass-low-hexagon.glb" id="17_grass_hex"]
+[ext_resource type="PackedScene" uid="uid://mke3wkneqlu8" path="res://models/kenney_platformer/block-grass-overhang-low-large.glb" id="18_grass_low_overhang"]
+[ext_resource type="PackedScene" uid="uid://bdl6kpn57ma0o" path="res://models/kenney_platformer/tree-pine.glb" id="19_tree_pine"]
+[ext_resource type="PackedScene" uid="uid://1gg4mdok32tf" path="res://models/kenney_platformer/rocks.glb" id="20_rocks"]
+[ext_resource type="PackedScene" uid="uid://c7xyq5f2hn62s" path="res://models/kenney_platformer/flowers.glb" id="21_flowers"]
+[ext_resource type="PackedScene" uid="uid://bhc1ia0qcd45h" path="res://models/kenney_platformer/spring.glb" id="22_spring"]
 
-[node name="startgui" type="Control"]
+[sub_resource type="Environment" id="Environment_start"]
+background_mode = 1
+background_color = Color(0.0196078, 0.329412, 0.929412, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.72, 1, 1)
+ambient_light_energy = 1.1
+glow_enabled = true
+glow_intensity = 0.12
+
+[sub_resource type="BoxMesh" id="BoxMesh_trampoline_ring"]
+size = Vector3(3.4, 0.35, 2.1)
+
+[sub_resource type="StandardMaterial3D" id="Material_trampoline_blue"]
+albedo_color = Color(0.025, 0.184, 0.827, 1)
+roughness = 0.45
+
+[sub_resource type="BoxMesh" id="BoxMesh_trampoline_pad"]
+size = Vector3(2.65, 0.16, 1.35)
+
+[sub_resource type="StandardMaterial3D" id="Material_trampoline_gold"]
+albedo_color = Color(1, 0.61, 0.035, 1)
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform"]
+size = Vector3(4.4, 0.28, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_platform_green"]
+albedo_color = Color(0.247059, 0.705882, 0.227451, 1)
+roughness = 0.55
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium_1"]
+size = Vector3(0.95, 1.35, 0.95)
+
+[sub_resource type="StandardMaterial3D" id="Material_block_gold"]
+albedo_color = Color(1, 0.63, 0.07, 1)
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium_2"]
+size = Vector3(0.85, 0.9, 0.85)
+
+[sub_resource type="StandardMaterial3D" id="Material_block_blue"]
+albedo_color = Color(0.0745098, 0.396078, 0.784314, 1)
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="BoxMesh_podium_3"]
+size = Vector3(0.85, 0.68, 0.85)
+
+[sub_resource type="StandardMaterial3D" id="Material_block_red"]
+albedo_color = Color(0.921569, 0.196078, 0.152941, 1)
+roughness = 0.42
+
+[sub_resource type="BoxMesh" id="BoxMesh_spark"]
+size = Vector3(0.18, 0.75, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="Material_spark_yellow"]
+albedo_color = Color(1, 0.862745, 0.133333, 1)
+emission_enabled = true
+emission = Color(1, 0.65, 0.05, 1)
+emission_energy_multiplier = 0.65
+
+[sub_resource type="StandardMaterial3D" id="Material_spark_pink"]
+albedo_color = Color(1, 0.188235, 0.427451, 1)
+emission_enabled = true
+emission = Color(1, 0.1, 0.42, 1)
+emission_energy_multiplier = 0.55
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.014, 0.035, 0.18, 0.82)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.312, 0.58, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_play"]
+bg_color = Color(1, 0.55, 0.02, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(1, 0.86, 0.08, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_focus"]
+bg_color = Color(1, 0.92, 0.2, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 4
+border_color = Color(0.02, 0.02, 0.09, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_blue"]
+bg_color = Color(0.02, 0.49, 0.86, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.49, 0.85, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_purple"]
+bg_color = Color(0.28, 0.16, 0.74, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.66, 0.52, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_green"]
+bg_color = Color(0.16, 0.62, 0.15, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.58, 1, 0.39, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_pink"]
+bg_color = Color(0.93, 0.17, 0.39, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(1, 0.57, 0.73, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dark_card"]
+bg_color = Color(0.012, 0.026, 0.13, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.37, 0.86, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="startgui" type="Control" unique_id=1298855670]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_edasy")
+script = ExtResource("1_start")
 
-[node name="gamebackground3d" parent="." instance=ExtResource("1_xuere")]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="BackgroundViewport" type="SubViewportContainer" parent="." unique_id=1638222806]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -38.0
-offset_top = -20.0
-offset_right = 38.0
-offset_bottom = 20.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="BackgroundViewport" unique_id=1108514398]
+handle_input_locally = false
+size = Vector2i(1280, 800)
+render_target_update_mode = 4
+
+[node name="World" type="Node3D" parent="BackgroundViewport/SubViewport" unique_id=1481231210]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="BackgroundViewport/SubViewport/World" unique_id=508748132]
+environment = SubResource("Environment_start")
+
+[node name="Sun" type="DirectionalLight3D" parent="BackgroundViewport/SubViewport/World" unique_id=281998827]
+transform = Transform3D(0.808307, -0.44158, 0.389449, 0.215616, 0.835314, 0.505983, -0.548808, -0.329387, 0.768372, 0, 8, 4)
+light_energy = 1.45
+
+[node name="FillLight" type="OmniLight3D" parent="BackgroundViewport/SubViewport/World" unique_id=621085153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4, 4)
+light_color = Color(0.45, 0.76, 1, 1)
+light_energy = 0.85
+omni_range = 12.0
+
+[node name="Camera3D" type="Camera3D" parent="BackgroundViewport/SubViewport/World" unique_id=22175450]
+transform = Transform3D(1, 0, 0, 0, 0.956305, 0.292372, 0, -0.292372, 0.956305, 0.65, 2.55, 12.25)
+fov = 58.0
+
+[node name="FloatingPlatforms" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2039770099]
+
+[node name="BackPlatformLeft" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1134228562 instance=ExtResource("18_grass_low_overhang")]
+transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, -5.65, -1.55, -2.55)
+
+[node name="BackPlatformRight" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=2019922131 instance=ExtResource("13_grass_overhang")]
+transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, 5.25, -1.25, -2.7)
+
+[node name="CenterPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1299277955 instance=ExtResource("17_grass_hex")]
+transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, 0.4, -1.85, 0.2)
+
+[node name="LeftTinyPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=804475026 instance=ExtResource("15_grass_low")]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, -2.85, -1.45, -1.0)
+
+[node name="MenuAccentPlatform" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1409721097 instance=ExtResource("14_grass_slope")]
+transform = Transform3D(1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, -3.85, -2.15, 1.95)
+
+[node name="PodiumGround" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1330555081 instance=ExtResource("16_grass_long")]
+transform = Transform3D(1.45, 0, 0, 0, 1.45, 0, 0, 0, 1.45, 4.2, -2.35, 2.1)
+
+[node name="TreePine" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=1793366948 instance=ExtResource("19_tree_pine")]
+transform = Transform3D(0.72, 0, 0, 0, 0.72, 0, 0, 0, 0.72, -5.6, -0.7, -2.0)
+
+[node name="Rocks" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=284780982 instance=ExtResource("20_rocks")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -0.690153, -0.42660666, 0.65)
+
+[node name="Flowers" parent="BackgroundViewport/SubViewport/World/FloatingPlatforms" unique_id=541360890 instance=ExtResource("21_flowers")]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, -0.8, 0.31055665, 0.9)
+
+[node name="Trampoline" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1321571878]
+transform = Transform3D(0.99680173, 0, 0.07991469, 0, 1, 0, -0.07991469, 0, 0.99680173, -2.6, -2.0, 1.85)
+
+[node name="Ring" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=584825226]
+transform = Transform3D(0.99999964, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0, 0.99999964, 0, 0, 0)
+mesh = SubResource("BoxMesh_trampoline_ring")
+surface_material_override/0 = SubResource("Material_trampoline_blue")
+
+[node name="Pad" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=459775708]
+transform = Transform3D(0.99999964, 0, -2.9802322e-08, 0, 1, 0, 2.9802322e-08, 0, 0.99999964, 0, 0.17, 0)
+mesh = SubResource("BoxMesh_trampoline_pad")
+surface_material_override/0 = SubResource("Material_trampoline_gold")
+
+[node name="Spring" parent="BackgroundViewport/SubViewport/World/Trampoline" unique_id=684558383 instance=ExtResource("22_spring")]
+transform = Transform3D(0.8499997, 0, -3.7252903e-08, 0, 0.85, 0, 3.7252903e-08, 0, 0.8499997, 0, 0.34, 0)
+
+[node name="PodiumIsland" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2056438997]
+transform = Transform3D(0.99820054, 0, -0.059964005, 0, 1, 0, 0.059964005, 0, 0.99820054, 4.45, -1.65, 1.25)
+
+[node name="GrassBase" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/PodiumIsland" unique_id=1891682236]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, -0.35, 0)
+mesh = SubResource("BoxMesh_platform")
+surface_material_override/0 = SubResource("Material_platform_green")
+
+[node name="Podium1" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/PodiumIsland" unique_id=1433701118]
+transform = Transform3D(0.85, 0, 0, 0, 0.85, 0, 0, 0, 0.85, 0, 0.18, 0)
+mesh = SubResource("BoxMesh_podium_1")
+surface_material_override/0 = SubResource("Material_block_gold")
+
+[node name="Podium2" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/PodiumIsland" unique_id=443068553]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, -0.85, -0.03, 0.08)
+mesh = SubResource("BoxMesh_podium_2")
+surface_material_override/0 = SubResource("Material_block_blue")
+
+[node name="Podium3" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/PodiumIsland" unique_id=1695664423]
+transform = Transform3D(0.78, 0, 0, 0, 0.78, 0, 0, 0, 0.78, 0.85, -0.12, 0.12)
+mesh = SubResource("BoxMesh_podium_3")
+surface_material_override/0 = SubResource("Material_block_red")
+
+[node name="Players" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1501766226]
+
+[node name="Player1" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1505596909 instance=ExtResource("2_player1")]
+transform = Transform3D(1.3906673, 0, -0.4150066, 0, 1.45, 0, 0.4150066, 0, 1.3906673, 0.75, 0.4, 0.65)
+active = false
+
+[node name="Player2" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1338693320 instance=ExtResource("3_player2")]
+transform = Transform3D(0.83342505, 0.00069288496, -0.3397089, -0.044657774, 0.8924111, -0.10774098, 0.33676147, 0.11662742, 0.82643193, 2.85, 2.35, -0.35)
+active = false
+
+[node name="Player3" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1214142072 instance=ExtResource("4_player3")]
+transform = Transform3D(0.9017941, -0.05555911, -0.17343752, 0.045898095, 0.91719687, -0.055166885, 0.17624064, 0.045422524, 0.90181816, 4.4, 0.25, 0.3)
+active = false
+
+[node name="Player4" parent="BackgroundViewport/SubViewport/World/Players" unique_id=1222029318 instance=ExtResource("5_player4")]
+transform = Transform3D(0.70540744, -0.021581825, -0.33216634, 0.03118544, 0.7792202, 0.015598959, 0.33140263, -0.027387662, 0.70556515, -1.75, 0.0, 0.7)
+active = false
+
+[node name="Coins" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2087567498]
+
+[node name="Coin1" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=680817890 instance=ExtResource("9_coin")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -0.2, 2.65, -0.5)
+
+[node name="Coin2" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1028005746 instance=ExtResource("9_coin")]
+transform = Transform3D(1.15, 0, 0, 0, 1.15, 0, 0, 0, 1.15, 4.05, 1.95, -0.7)
+
+[node name="Coin3" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=876938969 instance=ExtResource("9_coin")]
+transform = Transform3D(0.95, 0, 0, 0, 0.95, 0, 0, 0, 0.95, 5.65, 0.62, -1.15)
+
+[node name="Coin4" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1561409329 instance=ExtResource("9_coin")]
+transform = Transform3D(0.82, 0, 0, 0, 0.82, 0, 0, 0, 0.82, 1.7, -0.35, 1.25)
+
+[node name="Coin5" parent="BackgroundViewport/SubViewport/World/Coins" unique_id=1263963030 instance=ExtResource("9_coin")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -3.7, 1.2, -0.9)
+
+[node name="Clouds" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=1928453999]
+
+[node name="Cloud1" parent="BackgroundViewport/SubViewport/World/Clouds" unique_id=62255890 instance=ExtResource("10_cloud")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -6.2, 1.25, -4)
+
+[node name="Cloud2" parent="BackgroundViewport/SubViewport/World/Clouds" unique_id=1258794815 instance=ExtResource("10_cloud")]
+transform = Transform3D(2.8, 0, 0, 0, 2.8, 0, 0, 0, 2.8, 5.2, 2.15, -5.2)
+
+[node name="Cloud3" parent="BackgroundViewport/SubViewport/World/Clouds" unique_id=1048073012 instance=ExtResource("10_cloud")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0.2, 3.1, -5.8)
+
+[node name="Sparks" type="Node3D" parent="BackgroundViewport/SubViewport/World" unique_id=2002299916]
+
+[node name="Spark1" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Sparks" unique_id=1066887763]
+transform = Transform3D(0.59, 0.807, 0, -0.807, 0.59, 0, 0, 0, 1, -4.6, 1.9, -1.2)
+mesh = SubResource("BoxMesh_spark")
+surface_material_override/0 = SubResource("Material_spark_yellow")
+
+[node name="Spark2" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Sparks" unique_id=443187213]
+transform = Transform3D(0.799, -0.602, 0, 0.602, 0.799, 0, 0, 0, 1, -3.85, 2.18, -1.05)
+mesh = SubResource("BoxMesh_spark")
+surface_material_override/0 = SubResource("Material_spark_pink")
+
+[node name="Spark3" type="MeshInstance3D" parent="BackgroundViewport/SubViewport/World/Sparks" unique_id=309610435]
+transform = Transform3D(0.522, 0.853, 0, -0.853, 0.522, 0, 0, 0, 1, 1.65, 2.95, -0.9)
+mesh = SubResource("BoxMesh_spark")
+surface_material_override/0 = SubResource("Material_spark_yellow")
+
+[node name="Overlay" type="Control" parent="." unique_id=1379914121]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
+[node name="CoinCounter" type="PanelContainer" parent="Overlay" unique_id=2098439412]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -250.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 98.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBox_panel")
 
-[node name="PlayerCountSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="Overlay/CoinCounter" unique_id=1430984619]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.08, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 34
+text = "COINS x 123"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuStack" type="VBoxContainer" parent="Overlay" unique_id=159771077]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.04
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_right = 560.0
+offset_bottom = -60.0
+theme_override_constants/separation = 14
+
+[node name="TitleBlock" type="VBoxContainer" parent="Overlay/MenuStack" unique_id=2086693247]
+layout_mode = 2
+theme_override_constants/separation = -8
+
+[node name="JumpTitle" type="Label" parent="Overlay/MenuStack/TitleBlock" unique_id=43952014]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.74, 0.08, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.05, 0.34, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 128
+text = "JUMP"
+
+[node name="JunkiesTitle" type="Label" parent="Overlay/MenuStack/TitleBlock" unique_id=500948716]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.05, 0.34, 1)
+theme_override_constants/outline_size = 16
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 112
+text = "JUNKIES"
+
+[node name="Tagline" type="Label" parent="Overlay/MenuStack/TitleBlock" unique_id=569926917]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.96, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.07, 0.2, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 28
+text = "Grab coins. Bump rivals. Claim the podium."
+
+[node name="ButtonList" type="VBoxContainer" parent="Overlay/MenuStack" unique_id=92192355]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Play" type="Button" parent="Overlay/MenuStack/ButtonList" unique_id=757193691]
+custom_minimum_size = Vector2(440, 86)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../LocalPlay")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.17, 0.09, 0.01, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBox_play")
+theme_override_styles/pressed = SubResource("StyleBox_focus")
+theme_override_styles/hover = SubResource("StyleBox_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus")
+text = "> PLAY
+Jump in!"
+alignment = 0
+
+[node name="LocalPlay" type="Button" parent="Overlay/MenuStack/ButtonList" unique_id=65165375]
+custom_minimum_size = Vector2(440, 86)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Play")
+focus_neighbor_bottom = NodePath("../Options")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.08, 0.17, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBox_blue")
+theme_override_styles/pressed = SubResource("StyleBox_focus")
+theme_override_styles/hover = SubResource("StyleBox_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus")
+text = "[2-4] LOCAL PLAY
+Cycle players"
+alignment = 0
+
+[node name="Options" type="Button" parent="Overlay/MenuStack/ButtonList" unique_id=959266986]
+custom_minimum_size = Vector2(440, 86)
+layout_mode = 2
+focus_neighbor_top = NodePath("../LocalPlay")
+focus_neighbor_bottom = NodePath("../Leaderboards")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.03, 0.2, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBox_purple")
+theme_override_styles/pressed = SubResource("StyleBox_focus")
+theme_override_styles/hover = SubResource("StyleBox_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus")
+text = "OPTIONS
+Settings"
+alignment = 0
+
+[node name="Leaderboards" type="Button" parent="Overlay/MenuStack/ButtonList" unique_id=812275201]
+custom_minimum_size = Vector2(440, 86)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Options")
+focus_neighbor_bottom = NodePath("../Quit")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.14, 0.01, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBox_green")
+theme_override_styles/pressed = SubResource("StyleBox_focus")
+theme_override_styles/hover = SubResource("StyleBox_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus")
+text = "LEADERBOARDS
+Top Junkies"
+alignment = 0
+
+[node name="Quit" type="Button" parent="Overlay/MenuStack/ButtonList" unique_id=1125929170]
+custom_minimum_size = Vector2(440, 86)
+layout_mode = 2
+focus_neighbor_top = NodePath("../Leaderboards")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.18, 0.01, 0.08, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 33
+theme_override_styles/normal = SubResource("StyleBox_pink")
+theme_override_styles/pressed = SubResource("StyleBox_focus")
+theme_override_styles/hover = SubResource("StyleBox_focus")
+theme_override_styles/focus = SubResource("StyleBox_focus")
+text = "QUIT
+See you!"
+alignment = 0
+
+[node name="PlayerControls" type="HBoxContainer" parent="Overlay/MenuStack" unique_id=1009710102]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PlayerCountSpinBox" type="SpinBox" parent="Overlay/MenuStack/PlayerControls" unique_id=1102389127]
+custom_minimum_size = Vector2(110, 46)
 layout_mode = 2
 min_value = 1.0
 max_value = 4.0
 value = 1.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="PlayerCountLabel" type="Label" parent="Overlay/MenuStack/PlayerControls" unique_id=1441331399]
 layout_mode = 2
-text = "Players"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.08, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 28
+text = "1 Player"
+vertical_alignment = 1
 
-[node name="PlayerSlider" type="HSlider" parent="VBoxContainer"]
+[node name="PlayerSlider" type="HSlider" parent="Overlay/MenuStack" unique_id=1687954594]
 layout_mode = 2
 min_value = 1.0
 max_value = 4.0
@@ -52,43 +548,132 @@ value = 1.0
 tick_count = 4
 ticks_on_borders = true
 
-[node name="StartGame" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-text = "Start
-A"
-script = ExtResource("1_6mhf8")
+[node name="TipPanel" type="PanelContainer" parent="Overlay" unique_id=656952328]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -430.0
+offset_top = -150.0
+offset_right = -42.0
+offset_bottom = -42.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBox_dark_card")
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="Margin" type="MarginContainer" parent="Overlay/TipPanel" unique_id=1371760000]
 layout_mode = 2
-text = "Quit
-A"
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 16
 
-[node name="SystemCheck" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="Overlay/TipPanel/Margin" unique_id=1257654925]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.08, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 26
+text = "TIP:
+Grab coins, bump rivals,
+and be the top Junkie!"
+
+[node name="OptionsPanel" type="PanelContainer" parent="Overlay" unique_id=1024512272]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -170.0
+offset_right = 260.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_dark_card")
+
+[node name="Margin" type="MarginContainer" parent="Overlay/OptionsPanel" unique_id=592105977]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Overlay/OptionsPanel/Margin" unique_id=208295903]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="Overlay/OptionsPanel/Margin/VBox" unique_id=647473321]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.18, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 34
+text = "Options"
+
+[node name="SystemCheck" type="Label" parent="Overlay/OptionsPanel/Margin/VBox" unique_id=182245927]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
 text = "System Info"
-script = ExtResource("4_yad0u")
 
-[node name="SteamDeckContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="SteamDeckBadge" type="Label" parent="Overlay/OptionsPanel/Margin/VBox" unique_id=1288985237]
 visible = false
 layout_mode = 2
+theme_override_colors/font_color = Color(0.64, 1, 0.64, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 24
+text = "Steam Deck detected"
 
-[node name="Label" type="Label" parent="VBoxContainer/SteamDeckContainer"]
+[node name="LeaderboardPanel" type="PanelContainer" parent="Overlay" unique_id=869928078]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -220.0
+offset_right = 300.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_dark_card")
+
+[node name="Margin" type="MarginContainer" parent="Overlay/LeaderboardPanel" unique_id=1494297282]
 layout_mode = 2
-text = "Running On"
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
 
-[node name="SteamDeck" type="TextureRect" parent="VBoxContainer/SteamDeckContainer"]
+[node name="VBox" type="VBoxContainer" parent="Overlay/LeaderboardPanel/Margin" unique_id=1668080331]
 layout_mode = 2
-texture = ExtResource("5_vinl1")
-stretch_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Label2" type="Label" parent="VBoxContainer/SteamDeckContainer"]
+[node name="Title" type="Label" parent="Overlay/LeaderboardPanel/Margin/VBox" unique_id=2113305716]
 layout_mode = 2
-text = "Deck
-"
+theme_override_colors/font_color = Color(1, 0.88, 0.18, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 34
+text = "Top Junkies"
 
-[connection signal="changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_changed"]
-[connection signal="value_changed" from="VBoxContainer/HBoxContainer/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_value_changed"]
-[connection signal="changed" from="VBoxContainer/PlayerSlider" to="." method="_on_player_slider_changed"]
-[connection signal="value_changed" from="VBoxContainer/PlayerSlider" to="." method="_on_player_slider_value_changed"]
-[connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[node name="LeaderboardList" type="ItemList" parent="Overlay/LeaderboardPanel/Margin/VBox" unique_id=1886225747]
+custom_minimum_size = Vector2(540, 320)
+layout_mode = 2
+max_columns = 3
+same_column_width = true
+fixed_column_width = 170
+
+[connection signal="pressed" from="Overlay/MenuStack/ButtonList/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Overlay/MenuStack/ButtonList/LocalPlay" to="." method="_on_local_play_pressed"]
+[connection signal="pressed" from="Overlay/MenuStack/ButtonList/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Overlay/MenuStack/ButtonList/Leaderboards" to="." method="_on_leaderboards_pressed"]
+[connection signal="pressed" from="Overlay/MenuStack/ButtonList/Quit" to="." method="_on_quit_pressed"]
+[connection signal="value_changed" from="Overlay/MenuStack/PlayerControls/PlayerCountSpinBox" to="." method="_on_player_count_spin_box_value_changed"]
+[connection signal="value_changed" from="Overlay/MenuStack/PlayerSlider" to="." method="_on_player_slider_value_changed"]
