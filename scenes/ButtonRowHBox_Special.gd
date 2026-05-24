@@ -32,5 +32,4 @@ func _on_button_save_pressed() -> void:
 	var outputText = displayLineEdit.text
 	var outputEditor: TextEdit = $"../..".outputLine
 	outputEditor.text = outputText
-	outputEditor.grab_focus()
 	pass # Replace with function body.

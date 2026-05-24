@@ -47,6 +47,8 @@ func _add_highscore():
 	
 func refresh():
 	line.text = player_initials
+	if keyboard_screen.has_method("configure_player"):
+		keyboard_screen.configure_player(player_id)
 	if keyboard_screen.has_method("set_text"):
 		keyboard_screen.set_text(player_initials)
 	player_stats.text = "Player %s #%d Coins: %d Time %s" % [player_initials,player_id,player_coins,player_time]

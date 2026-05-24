@@ -43,16 +43,12 @@ var resume_button: Button
 var level_complete_menu_layer: CanvasLayer
 var continue_button: Button
 var level_complete_title: Label
-var finish_notices: Array[Control] = []
 var scoreboards: Array[Control] = []
 var current_level_index := 0
 var finished_player_ids := {}
 var current_level_root: Node3D
 var level_transition_pending := false
 var campaign_results_by_level := {}
-var finish_queue: Array = []
-var queued_finish_player_ids := {}
-var active_initials_player = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -61,7 +57,6 @@ func _ready() -> void:
 	_ensure_pause_input()
 	_build_pause_menu()
 	_build_level_complete_menu()
-	_build_finish_notices()
 	_build_player_scoreboards()
 	_configure_player_slots()
 	setViews(view_container, Global.player_count)
@@ -110,12 +105,8 @@ func setViews(viewContainer: GridContainer, player_count: int):
 		
 func _load_level(level_index: int) -> void:
 	finished_player_ids.clear()
-	finish_queue.clear()
-	queued_finish_player_ids.clear()
-	active_initials_player = null
 	level_transition_pending = false
 	_hide_level_complete_menu()
-	_hide_finish_notices()
 	_hide_scoreboards()
 
 	if current_level_root != null:
@@ -159,12 +150,8 @@ func _advance_level() -> void:
 
 func _reset_current_level() -> void:
 	finished_player_ids.clear()
-	finish_queue.clear()
-	queued_finish_player_ids.clear()
-	active_initials_player = null
 	level_transition_pending = false
 	_hide_level_complete_menu()
-	_hide_finish_notices()
 	_hide_scoreboards()
 	if current_level_index == 0:
 		_start_campaign_identity_prompt()
@@ -197,49 +184,6 @@ func _connect_level_goal(level_root: Node) -> void:
 func _hide_scoreboards() -> void:
 	for scoreboard in scoreboards:
 		scoreboard.visible = false
-
-func _build_finish_notices() -> void:
-	finish_notices.clear()
-	for i in range(MAX_PLAYERS):
-		var notice := PanelContainer.new()
-		notice.name = "FinishNotice%d" % [i + 1]
-		notice.visible = false
-		notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		notice.set_anchors_preset(Control.PRESET_TOP_WIDE)
-		notice.offset_left = 24
-		notice.offset_top = 24
-		notice.offset_right = -24
-		notice.offset_bottom = 108
-
-		var label := Label.new()
-		label.name = "Label"
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.text = "Finished\nWaiting for name entry"
-		notice.add_child(label)
-
-		player_subviewports[i].add_child(notice)
-		finish_notices.append(notice)
-
-func _show_finish_notice(player, message: String) -> void:
-	var player_index: int = player.player_id - 1
-	if player_index < 0 or player_index >= finish_notices.size():
-		return
-
-	var notice := finish_notices[player_index]
-	var label := notice.get_node("Label") as Label
-	label.text = message
-	notice.visible = true
-
-func _hide_finish_notice(player) -> void:
-	var player_index: int = player.player_id - 1
-	if player_index >= 0 and player_index < finish_notices.size():
-		finish_notices[player_index].visible = false
-
-func _hide_finish_notices() -> void:
-	for notice in finish_notices:
-		notice.visible = false
 	
 func _ensure_pause_input() -> void:
 	if !InputMap.has_action(PAUSE_ACTION):
@@ -413,12 +357,8 @@ func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 func _on_player_score_saved(player) -> void:
-	if active_initials_player == player:
-		active_initials_player = null
-
 	var player_index: int = player.player_id - 1
 	if player_index < 0 or player_index >= scoreboards.size():
-		_process_next_finish_prompt()
 		return
 
 	finished_player_ids[player.player_id] = true
@@ -433,8 +373,6 @@ func _on_player_score_saved(player) -> void:
 	if finished_player_ids.size() >= Global.player_count and !level_transition_pending:
 		level_transition_pending = true
 		_show_level_complete_menu()
-	else:
-		_process_next_finish_prompt()
 
 func _on_continue_pressed() -> void:
 	get_tree().paused = false
@@ -451,39 +389,7 @@ func _on_replay_level_pressed() -> void:
 
 func _on_flag_body_entered(body: Node3D) -> void:
 	if body != null and body.has_method("show_scene"):
-		_queue_finish_prompt(body)
-
-func _queue_finish_prompt(player) -> void:
-	if player == null:
-		return
-	if !player.active or player.finished:
-		return
-	if finished_player_ids.has(player.player_id) or queued_finish_player_ids.has(player.player_id):
-		return
-
-	queued_finish_player_ids[player.player_id] = true
-	finish_queue.append(player)
-	if active_initials_player != null:
-		_show_finish_notice(
-			player,
-			"Finished!\nWaiting for Player %d to save" % [active_initials_player.player_id]
-		)
-	_process_next_finish_prompt()
-
-func _process_next_finish_prompt() -> void:
-	if active_initials_player != null:
-		return
-
-	while !finish_queue.is_empty():
-		var player = finish_queue.pop_front()
-		queued_finish_player_ids.erase(player.player_id)
-		if player == null or !player.active or player.finished or finished_player_ids.has(player.player_id):
-			continue
-
-		active_initials_player = player
-		_hide_finish_notice(player)
-		player.show_scene()
-		return
+		body.show_scene()
 
 func _record_campaign_result(player) -> void:
 	if !campaign_results_by_level.has(current_level_index):
