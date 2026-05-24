@@ -40,10 +40,24 @@ var initials_entry : Control
 # Functions
 
 func _ready():
+	if !active:
+		_set_inactive_display_mode()
+		return
+
 	# this check is due to start screen using a copy of the main scene/player scenes (current script) 
 	var current =  get_path().get_concatenated_names()
 	if current.find("startgui") == -1:
 		call_deferred("_initialize") # we are not in the start sceen
+
+func _set_inactive_display_mode() -> void:
+	set_physics_process(false)
+	set_process(false)
+	set_process_input(false)
+	set_process_unhandled_input(false)
+	if has_node("Collider"):
+		$Collider.disabled = true
+	particles_trail.emitting = false
+	sound_footsteps.stream_paused = true
 
 func configure_slot(slot_player_id: int, slot_initials_entry: Control) -> void:
 	player_id = slot_player_id
