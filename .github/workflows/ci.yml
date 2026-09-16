@@ -7,6 +7,11 @@ on:
       - fourplayer
   pull_request:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag to create from fourplayer (for example, v0.1.0)
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -75,9 +80,11 @@ jobs:
           - preset: Linux
             output: build/linux/jump_junkies.x86_64
             artifact: jump-junkies-linux
+            archive: jump-junkies-linux.zip
           - preset: Windows Desktop
             output: build/windows/jump_junkies.exe
             artifact: jump-junkies-windows
+            archive: jump-junkies-windows.zip
 
     steps:
       - name: Check out repository
@@ -99,9 +106,49 @@ jobs:
           mkdir -p "$(dirname '${{ matrix.output }}')"
           godot --headless --path . --export-release "${{ matrix.preset }}" "${{ matrix.output }}"
 
+      - name: Package release build
+        shell: bash
+        run: |
+          cd "$(dirname '${{ matrix.output }}')"
+          zip -r "../${{ matrix.archive }}" .
+
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}
-          path: ${{ matrix.output }}*
+          path: build/${{ matrix.archive }}
           if-no-files-found: error
+
+  release:
+    name: Publish fourplayer release
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.ref == 'refs/heads/fourplayer' &&
+      inputs.release_tag != ''
+    needs: export
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download release builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jump-junkies-*
+          path: release-assets
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        shell: bash
+        run: |
+          mapfile -d '' assets < <(find release-assets -type f -name '*.zip' -print0)
+          if (( ${#assets[@]} != 2 )); then
+            echo "Expected two release archives, found ${#assets[@]}."
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" "${assets[@]}" \
+            --target "$GITHUB_SHA" \
+            --title "Jump Junkies $RELEASE_TAG" \
+            --generate-notes
