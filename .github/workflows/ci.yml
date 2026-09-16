@@ -1,0 +1,157 @@
+name: Godot CI
+
+on:
+  push:
+    branches:
+      - fourplayer
+  pull_request:
+    branches:
+      - fourplayer
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Release tag to create from fourplayer (for example, v0.1.0)
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate project
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Godot 4.6.3
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: false
+
+      - name: Show Godot version
+        run: godot --version
+
+      - name: Import project
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --import 2>&1 | tee import.log
+          if grep -E "SCRIPT ERROR:|ERROR:" import.log; then
+            echo "Godot reported an error while importing the project."
+            exit 1
+          fi
+
+      - name: Smoke-test startup
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --path . --quit-after 120 2>&1 | tee smoke.log
+          if grep -E "SCRIPT ERROR:|ERROR:" smoke.log \
+            | grep -v -E "ERROR: [0-9]+ resources still in use at exit"; then
+            echo "Godot reported an error while running the project."
+            exit 1
+          fi
+
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot-logs
+          path: |
+            import.log
+            smoke.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  export:
+    name: Export ${{ matrix.preset }}
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: Linux
+            output: build/linux/jump_junkies.x86_64
+            artifact: jump-junkies-linux
+            archive: jump-junkies-linux.zip
+          - preset: Windows Desktop
+            output: build/windows/jump_junkies.exe
+            artifact: jump-junkies-windows
+            archive: jump-junkies-windows.zip
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Godot 4.6.3 and export templates
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.6.3
+          use-dotnet: false
+          include-templates: true
+
+      - name: Import project
+        run: godot --headless --path . --import
+
+      - name: Export release build
+        shell: bash
+        run: |
+          mkdir -p "$(dirname '${{ matrix.output }}')"
+          godot --headless --path . --export-release "${{ matrix.preset }}" "${{ matrix.output }}"
+
+      - name: Package release build
+        shell: bash
+        run: |
+          cd "$(dirname '${{ matrix.output }}')"
+          zip -r "../${{ matrix.archive }}" .
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: build/${{ matrix.archive }}
+          if-no-files-found: error
+
+  release:
+    name: Publish fourplayer release
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      github.ref == 'refs/heads/fourplayer' &&
+      inputs.release_tag != ''
+    needs: export
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download release builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jump-junkies-*
+          path: release-assets
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        shell: bash
+        run: |
+          mapfile -d '' assets < <(find release-assets -type f -name '*.zip' -print0)
+          if (( ${#assets[@]} != 2 )); then
+            echo "Expected two release archives, found ${#assets[@]}."
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" "${assets[@]}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "Jump Junkies $RELEASE_TAG" \
+            --generate-notes
