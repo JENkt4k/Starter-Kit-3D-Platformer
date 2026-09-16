@@ -37,8 +37,6 @@ window/size/borderless=true
 [editor]
 
 movie_writer/movie_file="C:/Users/Kenney/Desktop/video-footage.avi"
-version_control/plugin_name="GitPlugin"
-version_control/autoload_on_startup=true
 
 [filesystem]
 
