@@ -5,11 +5,14 @@ var scores: SaveData
 var player_count: int = 1
 var victory_results: Array[Dictionary] = []
 
-func _ready():
-	scores = SaveData.load_or_create("user://testdata.tres")#SaveData.data_path)
+func _ready() -> void:
+	scores = SaveData.load_or_create("user://testdata.tres")
 
-func _is_steam_deck() -> bool: # 1
-	if RenderingServer.get_rendering_device().get_device_name().contains("RADV VANGOGH") or OS.get_processor_name().contains("AMD CUSTOM APU 0405"): # 2
-		return true
-	else: # 3
-		return false
+func get_gpu_name() -> String:
+	var rendering_device := RenderingServer.get_rendering_device()
+	if rendering_device == null:
+		return "Unavailable (headless)"
+	return rendering_device.get_device_name()
+
+func _is_steam_deck() -> bool:
+	return get_gpu_name().contains("RADV VANGOGH") or OS.get_processor_name().contains("AMD CUSTOM APU 0405")

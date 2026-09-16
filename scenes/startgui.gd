@@ -82,6 +82,6 @@ func _update_system_info() -> void:
 		OS.get_name(),
 		OS.get_distribution_name(),
 		OS.get_processor_name(),
-		RenderingServer.get_rendering_device().get_device_name()
+		Global.get_gpu_name()
 	]
 	steam_deck_badge.visible = Global._is_steam_deck()

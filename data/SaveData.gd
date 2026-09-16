@@ -3,15 +3,18 @@ class_name SaveData extends Resource
 #@export var data_path = "user://testdata.tres"
 var data_path = "user://testdata.tres"
 
-func save()->void:
+func save() -> void:
 	ResourceSaver.save(self, data_path)
-	
-static func load_or_create(_data_path) -> SaveData:
-	#data_path = _data_path
-	var res: SaveData = load(_data_path) as SaveData
-	if !res:
-		res = SaveData.new()
-		res.data_path = _data_path
-	return res
+
+static func load_or_create(save_path: String) -> SaveData:
+	var save_data: SaveData
+	if ResourceLoader.exists(save_path):
+		save_data = ResourceLoader.load(save_path, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveData
+
+	if save_data == null:
+		save_data = SaveData.new()
+
+	save_data.data_path = save_path
+	return save_data
 	
 	

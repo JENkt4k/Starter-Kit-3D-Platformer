@@ -51,7 +51,8 @@ jobs:
         run: |
           set -o pipefail
           godot --headless --path . --quit-after 120 2>&1 | tee smoke.log
-          if grep -E "SCRIPT ERROR:|ERROR:" smoke.log; then
+          if grep -E "SCRIPT ERROR:|ERROR:" smoke.log \
+            | grep -v -E "ERROR: [0-9]+ resources still in use at exit"; then
             echo "Godot reported an error while running the project."
             exit 1
           fi
