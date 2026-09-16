@@ -3,9 +3,10 @@ name: Godot CI
 on:
   push:
     branches:
-      - main
       - fourplayer
   pull_request:
+    branches:
+      - fourplayer
   workflow_dispatch:
     inputs:
       release_tag:
