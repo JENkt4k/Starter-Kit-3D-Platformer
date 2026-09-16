@@ -150,6 +150,7 @@ jobs:
             exit 1
           fi
           gh release create "$RELEASE_TAG" "${assets[@]}" \
+            --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
             --title "Jump Junkies $RELEASE_TAG" \
             --generate-notes
